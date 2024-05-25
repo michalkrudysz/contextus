@@ -1,28 +1,35 @@
 .main-container {
-  width: 95vw;
+  width: 90vw;
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #f2937e;
   margin-top: 1em;
-  padding: 4em 1em;
+  padding: 3.3em 1em;
   border-radius: 30px;
+  background-color: rgba(217, 64, 50, 1);
+  background-image: radial-gradient(
+    circle,
+    rgba(217, 64, 50, 1) 0%,
+    rgba(242, 107, 94, 1) 100%
+  );
+  box-shadow: -1px 1px 30px -11px rgba(242, 107, 94, 1);
   -webkit-box-shadow: -1px 1px 30px -11px rgba(242, 107, 94, 1);
   -moz-box-shadow: -1px 1px 30px -11px rgba(242, 107, 94, 1);
-  box-shadow: -1px 1px 30px -11px rgba(242, 107, 94, 1);
 
   .logo-container {
     width: 20%;
 
     img {
       width: 100%;
+      cursor: pointer;
     }
   }
 
   .content {
     margin-top: 1em;
+    padding-top: 0.5em;
     color: #f2edd5;
-    letter-spacing: 0.15em;
     font-weight: 300;
+    letter-spacing: 0.15em;
   }
 }
