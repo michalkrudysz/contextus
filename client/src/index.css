@@ -1,3 +1,5 @@
+@import url("./fonts.css");
+
 html {
   line-height: 1.15;
   -webkit-text-size-adjust: 100%;
@@ -28,7 +30,7 @@ dd,
 
 body {
   min-height: 100vh;
-  font-family: Arial, sans-serif;
+  font-family: "Fira Sans", sans-serif;
   background-color: #fff;
   color: #333;
 }
