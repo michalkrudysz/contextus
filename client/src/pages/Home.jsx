@@ -1,7 +1,7 @@
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import classes from "./styles/Home.module.scss";
-import LoginIn from "../components/LoginIn";
+import Login from "../components/Login";
 
 const Home = () => {
   return (
@@ -22,7 +22,7 @@ const Home = () => {
           </div>
         </div>
         <div className={classes["right-side"]}>
-          <LoginIn />
+          <Login />
         </div>
       </div>
       <Footer />
