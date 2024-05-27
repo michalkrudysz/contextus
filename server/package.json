@@ -11,9 +11,12 @@
   "author": "Michał Krudysz",
   "license": "All Rights Reserved",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
-    "express": "^4.19.2"
+    "express": "^4.19.2",
+    "joi": "^17.13.1",
+    "mysql2": "^3.9.8"
   },
   "devDependencies": {
     "cross-env": "^7.0.3",

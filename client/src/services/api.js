@@ -9,15 +9,21 @@ export const apiRequest = async (endpoint, method, body) => {
       },
       body: JSON.stringify(body),
     });
-
-    if (!response.ok) {
-      throw new Error("Request failed");
-    }
-
     const data = await response.json();
-    return data;
+    if (!response.ok) {
+      return {
+        success: false,
+        message: data.message || "Wystąpił błąd w żądaniu.",
+      };
+    }
+    return {
+      success: true,
+      data: data,
+    };
   } catch (error) {
-    console.error("API Request Error:", error);
-    throw error;
+    return {
+      success: false,
+      message: "Błąd komunikacji z serwerem.",
+    };
   }
 };
