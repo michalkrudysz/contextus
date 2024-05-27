@@ -1,10 +1,17 @@
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import classes from "./styles/Home.module.scss";
 import Login from "../components/Login";
 import SignUp from "../components/SignUp";
+import classes from "./styles/Home.module.scss";
+import { useState } from "react";
 
 const Home = () => {
+  const [isSigningUp, setIsSigningUp] = useState(false);
+
+  const toggleAuthMode = () => {
+    setIsSigningUp((prevIsSigningUp) => !prevIsSigningUp);
+  };
+
   return (
     <div className={classes.home}>
       <Header />
@@ -23,7 +30,11 @@ const Home = () => {
           </div>
         </div>
         <div className={classes["right-side"]}>
-          <SignUp />
+          {isSigningUp ? (
+            <SignUp toggleAuthMode={toggleAuthMode} />
+          ) : (
+            <Login toggleAuthMode={toggleAuthMode} />
+          )}
         </div>
       </div>
       <Footer />
