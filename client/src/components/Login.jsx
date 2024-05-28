@@ -1,13 +1,13 @@
 import Input from "../UI/Input";
 import Button from "../UI/Button";
 import classes from "./styles/Login.module.scss";
-import { useHandleFormSubmit } from "../utils/handleFormSubmit";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { loginAction } from "../redux/slices/authSlice";
 
 export default function Login({ toggleAuthMode }) {
-  const handleLogin = useHandleFormSubmit("/login");
+  const dispatch = useDispatch();
   const [error, setError] = useState(null);
   const auth = useSelector((state) => state.auth);
   const navigate = useNavigate();
@@ -34,6 +34,16 @@ export default function Login({ toggleAuthMode }) {
   const handleFocus = () => {
     setError(null);
     setContent(defaultMessage);
+  };
+
+  const handleLogin = async (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    const loginData = {
+      username: formData.get("login"),
+      password: formData.get("password"),
+    };
+    dispatch(loginAction(loginData));
   };
 
   return (

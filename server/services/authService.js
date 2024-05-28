@@ -63,7 +63,12 @@ exports.registerUser = async (username, email, password, repeatPassword) => {
         "INSERT INTO users (username, email, password, created_at) VALUES (?, ?, ?, CURRENT_TIMESTAMP)",
         [username, email, hashedPassword]
       );
-    return { success: true, username, email };
+
+    const token = jwt.sign({ username: username }, jwtSecret, {
+      expiresIn: "1h",
+    });
+
+    return { success: true, username, email, token };
   } catch (error) {
     return {
       success: false,

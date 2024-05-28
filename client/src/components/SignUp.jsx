@@ -1,18 +1,36 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import Input from "../UI/Input";
 import Button from "../UI/Button";
-import { registerAction } from "../services/authActions";
+import { registerAction, loginAction } from "../redux/slices/authSlice";
 import classes from "./styles/SignUp.module.scss";
 
 const message = "Posiadasz już konto? Zaloguj się!";
 
 export default function SignUp({ toggleAuthMode }) {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [error, setError] = useState(null);
+  const auth = useSelector((state) => state.auth);
   const [content, setContent] = useState(
     <div className={classes.info} onClick={toggleAuthMode}>
       {message}
     </div>
   );
+
+  useEffect(() => {
+    if (auth.registrationError && error !== auth.registrationError) {
+      setError(auth.registrationError);
+      setContent(<div className={classes.error}>{auth.registrationError}</div>);
+    }
+  }, [auth.registrationError, error]);
+
+  useEffect(() => {
+    if (auth.token) {
+      navigate("/dashboard");
+    }
+  }, [auth.token, navigate]);
 
   const handleInputChange = () => {
     if (error) {
@@ -28,18 +46,19 @@ export default function SignUp({ toggleAuthMode }) {
   const handleSignUp = async (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
-
-    const result = await registerAction({
-      request: {
-        formData: () => formData,
-      },
-    });
-
-    if (!result.success) {
-      setError(result.message);
-      setContent(<div className={classes.error}>{result.message}</div>);
-    } else {
-      console.log("Registration successful", result.data);
+    const registerData = {
+      username: formData.get("login"),
+      email: formData.get("email"),
+      password: formData.get("password"),
+      repeatPassword: formData.get("repeat-password"),
+    };
+    const resultAction = await dispatch(registerAction(registerData));
+    if (registerAction.fulfilled.match(resultAction)) {
+      const loginData = {
+        username: registerData.username,
+        password: registerData.password,
+      };
+      await dispatch(loginAction(loginData));
     }
   };
 
