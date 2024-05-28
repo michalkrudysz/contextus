@@ -1,8 +1,7 @@
-import { useSubmit, useNavigate } from "react-router-dom";
+import { useSubmit } from "react-router-dom";
 
-export const useHandleFormSubmit = (action, setError) => {
+export const useHandleFormSubmit = (action) => {
   const submit = useSubmit();
-  const navigate = useNavigate();
 
   return async (event) => {
     event.preventDefault();
@@ -13,12 +12,6 @@ export const useHandleFormSubmit = (action, setError) => {
       formBody[key] = value;
     });
 
-    const result = await submit(formBody, { method: "post", action });
-
-    if (!result.success) {
-      setError(result.error);
-    } else {
-      navigate("/success");
-    }
+    await submit(formBody, { method: "post", action });
   };
 };

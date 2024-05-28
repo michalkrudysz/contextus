@@ -1,4 +1,6 @@
 import { apiRequest } from "./api";
+import { loginSuccess, loginFailed } from "../redux/slices/authSlice";
+import store from "../redux/store";
 
 export const loginAction = async ({ request }) => {
   const formData = await request.formData();
@@ -7,9 +9,22 @@ export const loginAction = async ({ request }) => {
     password: formData.get("password"),
   };
 
-  console.log("Login Data:", loginData);
+  const result = await apiRequest("/home/login", "POST", loginData);
 
-  return apiRequest("/home/login", "POST", loginData);
+  if (result.success) {
+    store.dispatch(
+      loginSuccess({
+        token: result.data.token,
+        message: result.data.message,
+        userId: result.data.user.userId,
+        username: result.data.user.username,
+      })
+    );
+  } else {
+    store.dispatch(loginFailed({ message: result.message }));
+  }
+
+  return result;
 };
 
 export const registerAction = async ({ request }) => {
