@@ -21,7 +21,5 @@ export const registerAction = async ({ request }) => {
     repeatPassword: formData.get("repeat-password"),
   };
 
-  console.log("Register Data:", registerData);
-
   return apiRequest("/home/register", "POST", registerData);
 };

@@ -8,7 +8,6 @@ export const useHandleFormSubmit = (action, setError) => {
     event.preventDefault();
     const formData = new FormData(event.target);
 
-    // Przetwarzanie danych formularza
     const formBody = {};
     formData.forEach((value, key) => {
       formBody[key] = value;
@@ -19,7 +18,7 @@ export const useHandleFormSubmit = (action, setError) => {
     if (!result.success) {
       setError(result.error);
     } else {
-      navigate("/success"); // Przekieruj po pomyślnej rejestracji
+      navigate("/success");
     }
   };
 };
