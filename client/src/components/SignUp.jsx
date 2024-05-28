@@ -12,19 +12,14 @@ export default function SignUp({ toggleAuthMode }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [error, setError] = useState(null);
+  const [attemptedSignUp, setAttemptedSignUp] = useState(false);
   const auth = useSelector((state) => state.auth);
-  const [content, setContent] = useState(
+  const defaultMessage = (
     <div className={classes.info} onClick={toggleAuthMode}>
       {message}
     </div>
   );
-
-  useEffect(() => {
-    if (auth.registrationError && error !== auth.registrationError) {
-      setError(auth.registrationError);
-      setContent(<div className={classes.error}>{auth.registrationError}</div>);
-    }
-  }, [auth.registrationError, error]);
+  const [content, setContent] = useState(defaultMessage);
 
   useEffect(() => {
     if (auth.token) {
@@ -32,14 +27,21 @@ export default function SignUp({ toggleAuthMode }) {
     }
   }, [auth.token, navigate]);
 
-  const handleInputChange = () => {
+  useEffect(() => {
+    if (
+      attemptedSignUp &&
+      auth.registrationError &&
+      error !== auth.registrationError
+    ) {
+      setError(auth.registrationError);
+      setContent(<div className={classes.error}>{auth.registrationError}</div>);
+    }
+  }, [auth.registrationError, error, attemptedSignUp]);
+  const handleInputFocus = () => {
     if (error) {
       setError(null);
-      setContent(
-        <div className={classes.info} onClick={toggleAuthMode}>
-          {message}
-        </div>
-      );
+      setContent(defaultMessage);
+      setAttemptedSignUp(false);
     }
   };
 
@@ -52,6 +54,10 @@ export default function SignUp({ toggleAuthMode }) {
       password: formData.get("password"),
       repeatPassword: formData.get("repeat-password"),
     };
+
+    setError(null);
+    setContent(defaultMessage);
+    setAttemptedSignUp(true);
     const resultAction = await dispatch(registerAction(registerData));
     if (registerAction.fulfilled.match(resultAction)) {
       const loginData = {
@@ -68,41 +74,22 @@ export default function SignUp({ toggleAuthMode }) {
       <form
         className={classes.form}
         onSubmit={handleSignUp}
-        onFocus={handleInputChange}
+        onFocus={handleInputFocus}
       >
         <div className={classes["form-group"]}>
-          <Input
-            type="text"
-            name="login"
-            placeholder="Login"
-            onChange={handleInputChange}
-            required
-          />
+          <Input type="text" name="login" placeholder="Login" required />
         </div>
         <div className={classes["form-group"]}>
-          <Input
-            type="email"
-            name="email"
-            placeholder="E-mail"
-            onChange={handleInputChange}
-            required
-          />
+          <Input type="email" name="email" placeholder="E-mail" required />
         </div>
         <div className={classes["form-group"]}>
-          <Input
-            type="password"
-            name="password"
-            placeholder="Hasło"
-            onChange={handleInputChange}
-            required
-          />
+          <Input type="password" name="password" placeholder="Hasło" required />
         </div>
         <div className={classes["form-group"]}>
           <Input
             type="password"
             name="repeat-password"
             placeholder="Powtórz hasło"
-            onChange={handleInputChange}
             required
           />
         </div>
