@@ -4,7 +4,7 @@ import Login from "./components/Login";
 import SignUp from "./components/SignUp";
 import Dashboard from "./pages/Dashboard";
 import ProtectedRoute from "./pages/ProtectedRoute";
-import { loginAction, registerAction } from "./services/authActions";
+import { loginAction, registerAction } from "./redux/slices/authSlice";
 
 const router = createBrowserRouter([
   {

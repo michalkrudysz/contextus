@@ -62,6 +62,7 @@ export default function Login({ toggleAuthMode }) {
             name="login"
             placeholder="Login"
             onFocus={handleFocus}
+            required
           />
         </div>
         <div className={classes["form-group"]}>
@@ -70,6 +71,7 @@ export default function Login({ toggleAuthMode }) {
             name="password"
             placeholder="Hasło"
             onFocus={handleFocus}
+            required
           />
         </div>
         <Button type="submit">Zaloguj się</Button>

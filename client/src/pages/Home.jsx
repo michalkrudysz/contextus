@@ -14,7 +14,7 @@ const Home = () => {
 
   return (
     <div className={classes.home}>
-      <Header />
+      <Header toggleAuthMode={toggleAuthMode} />
       <div className={classes["main-container"]}>
         <div className={classes["left-side"]}>
           <div className={classes["content"]}>

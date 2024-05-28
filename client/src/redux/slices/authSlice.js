@@ -2,12 +2,12 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { apiRequest } from "../../services/api";
 
 const initialState = {
-  token: null,
+  token: localStorage.getItem("token") || null,
   message: "",
   errorMessage: "",
   registrationError: "",
-  userId: null,
-  username: "",
+  userId: localStorage.getItem("userId") || null,
+  username: localStorage.getItem("username") || "",
 };
 
 export const loginAction = createAsyncThunk(
@@ -15,6 +15,9 @@ export const loginAction = createAsyncThunk(
   async (loginData, { rejectWithValue }) => {
     const result = await apiRequest("/home/login", "POST", loginData);
     if (result.success) {
+      localStorage.setItem("token", result.data.token);
+      localStorage.setItem("userId", result.data.user.userId);
+      localStorage.setItem("username", result.data.user.username);
       return result.data;
     } else {
       return rejectWithValue(result.message);
@@ -27,6 +30,9 @@ export const registerAction = createAsyncThunk(
   async (registerData, { rejectWithValue }) => {
     const result = await apiRequest("/home/register", "POST", registerData);
     if (result.success) {
+      localStorage.setItem("token", result.data.token);
+      localStorage.setItem("userId", result.data.user.userId);
+      localStorage.setItem("username", result.data.user.username);
       return {
         ...result.data,
         loginData: {
@@ -51,6 +57,9 @@ const authSlice = createSlice({
       state.registrationError = "";
       state.userId = null;
       state.username = "";
+      localStorage.removeItem("token");
+      localStorage.removeItem("userId");
+      localStorage.removeItem("username");
     },
   },
   extraReducers: (builder) => {
