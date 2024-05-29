@@ -1,0 +1,50 @@
+.header {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 90%;
+  padding: 0.8em 2em;
+  background-color: #f2edd5;
+
+  .logo {
+    width: 12em;
+    margin-left: 3em;
+    padding: 0.3em 0.2em;
+    background-color: rgba(217, 64, 50, 1);
+    background-image: radial-gradient(
+      circle,
+      rgba(217, 64, 50, 1) 0%,
+      rgba(242, 107, 94, 1) 100%
+    );
+    border-radius: 10px;
+
+    img {
+      width: 100%;
+      cursor: pointer;
+    }
+  }
+
+  .logut {
+    position: absolute;
+    top: 50%;
+    right: 4em;
+    transform: translateY(-50%);
+
+    button {
+      all: unset;
+      cursor: pointer;
+      padding: 1em 2em;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      color: #f26b5e;
+      border-radius: 10px;
+      transition: all 0.25s ease-in;
+
+      &:hover {
+        background-color: #f26b5e;
+        color: #f2edd5;
+      }
+    }
+  }
+}
