@@ -8,7 +8,11 @@ exports.login = async (req, res) => {
     res.json({
       message: "Zalogowany pomyślnie",
       token: authResult.token,
-      user: { username, userId: authResult.userId },
+      user: {
+        username,
+        firstname: authResult.firstname,
+        userId: authResult.userId,
+      },
     });
   } else {
     res

@@ -5,7 +5,7 @@ import Footer from "../components/Footer";
 import StartModule from "../components/StartModule";
 
 export default function Dashboard() {
-  const { username, userId } = useSelector((state) => state.auth);
+  const { firstname, username, userId } = useSelector((state) => state.auth);
 
   if (!username || !userId) {
     return <div>Nie jesteś zalogowany.</div>;
@@ -14,7 +14,7 @@ export default function Dashboard() {
   return (
     <main className={classes.dashboard}>
       <HeaderDashboard />
-      <StartModule username={username} />
+      <StartModule username={firstname} />
       <Footer />
     </main>
   );

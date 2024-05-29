@@ -37,6 +37,7 @@ export default function SignUp({ toggleAuthMode }) {
       setContent(<div className={classes.error}>{auth.registrationError}</div>);
     }
   }, [auth.registrationError, error, attemptedSignUp]);
+
   const handleInputFocus = () => {
     if (error) {
       setError(null);
@@ -49,6 +50,7 @@ export default function SignUp({ toggleAuthMode }) {
     event.preventDefault();
     const formData = new FormData(event.target);
     const registerData = {
+      firstname: formData.get("firstname"),
       username: formData.get("login"),
       email: formData.get("email"),
       password: formData.get("password"),
@@ -76,6 +78,9 @@ export default function SignUp({ toggleAuthMode }) {
         onSubmit={handleSignUp}
         onFocus={handleInputFocus}
       >
+        <div className={classes["form-group"]}>
+          <Input type="text" name="firstname" placeholder="Imię" required />
+        </div>
         <div className={classes["form-group"]}>
           <Input type="text" name="login" placeholder="Login" required />
         </div>

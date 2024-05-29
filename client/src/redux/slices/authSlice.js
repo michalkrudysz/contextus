@@ -8,6 +8,7 @@ const initialState = {
   registrationError: "",
   userId: localStorage.getItem("userId") || null,
   username: localStorage.getItem("username") || "",
+  firstname: localStorage.getItem("firstname") || "",
 };
 
 export const loginAction = createAsyncThunk(
@@ -18,6 +19,7 @@ export const loginAction = createAsyncThunk(
       localStorage.setItem("token", result.data.token);
       localStorage.setItem("userId", result.data.user.userId);
       localStorage.setItem("username", result.data.user.username);
+      localStorage.setItem("firstname", result.data.user.firstname);
       return result.data;
     } else {
       return rejectWithValue(result.message);
@@ -33,6 +35,7 @@ export const registerAction = createAsyncThunk(
       localStorage.setItem("token", result.data.token);
       localStorage.setItem("userId", result.data.user.userId);
       localStorage.setItem("username", result.data.user.username);
+      localStorage.setItem("firstname", result.data.user.firstname);
       return {
         ...result.data,
         loginData: {
@@ -57,9 +60,11 @@ const authSlice = createSlice({
       state.registrationError = "";
       state.userId = null;
       state.username = "";
+      state.firstname = "";
       localStorage.removeItem("token");
       localStorage.removeItem("userId");
       localStorage.removeItem("username");
+      localStorage.removeItem("firstname");
     },
   },
   extraReducers: (builder) => {
@@ -69,6 +74,7 @@ const authSlice = createSlice({
         state.message = action.payload.message;
         state.userId = action.payload.user.userId;
         state.username = action.payload.user.username;
+        state.firstname = action.payload.user.firstname;
         state.errorMessage = "";
       })
       .addCase(loginAction.rejected, (state, action) => {
@@ -78,6 +84,7 @@ const authSlice = createSlice({
         state.message = action.payload.message;
         state.userId = action.payload.user.userId;
         state.username = action.payload.user.username;
+        state.firstname = action.payload.user.firstname;
         state.registrationError = "";
         state.token = action.payload.token;
       })

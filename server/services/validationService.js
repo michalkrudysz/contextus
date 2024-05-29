@@ -1,6 +1,12 @@
 const Joi = require("joi");
 
 const schema = Joi.object({
+  firstname: Joi.string().min(1).max(100).required().label("Imię").messages({
+    "string.empty": "Pole imię jest puste",
+    "string.min": "Imię jest za krótkie",
+    "string.max": "Imię jest za długie",
+    "any.required": "Pole imię jest wymagane",
+  }),
   username: Joi.string()
     .alphanum()
     .min(3)

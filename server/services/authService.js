@@ -18,7 +18,13 @@ exports.authenticateUser = async (username, password) => {
       const token = jwt.sign({ username: user.username }, jwtSecret, {
         expiresIn: "1h",
       });
-      return { success: true, username, token, userId: user.id };
+      return {
+        success: true,
+        username,
+        firstname: user.firstname,
+        token,
+        userId: user.id,
+      };
     }
     return { success: false, message: "Niepoprawny login lub hasło" };
   } catch (error) {
@@ -30,9 +36,16 @@ exports.authenticateUser = async (username, password) => {
   }
 };
 
-exports.registerUser = async (username, email, password, repeatPassword) => {
+exports.registerUser = async (
+  firstname,
+  username,
+  email,
+  password,
+  repeatPassword
+) => {
   try {
     const { error } = registerValidation({
+      firstname,
       username,
       email,
       password,
@@ -60,8 +73,8 @@ exports.registerUser = async (username, email, password, repeatPassword) => {
     await db
       .promise()
       .query(
-        "INSERT INTO users (username, email, password, created_at) VALUES (?, ?, ?, CURRENT_TIMESTAMP)",
-        [username, email, hashedPassword]
+        "INSERT INTO users (firstname, username, email, password, created_at) VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP)",
+        [firstname, username, email, hashedPassword]
       );
 
     const token = jwt.sign({ username: username }, jwtSecret, {
