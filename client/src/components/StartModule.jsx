@@ -10,22 +10,22 @@ export default function StartModule({ username }) {
             {username}!
           </h1>
           <h2>
-            Miło Cię widzieć w gronie uczących się!
+            Miło Cię widzieć w gronie uczących się
             <span>
               <br></br>
               Pamiętaj, że zaledwie 15 minut nauki dziennie dzieli Cię od
-              opanowania języka obcego!
+              opanowania języka obcego
             </span>
           </h2>
           <div className={classes.buttons}>
-            <button className={classes.button}>Rozpocznij naukę!</button>
+            <button className={classes.button}>Rozpocznij naukę</button>
           </div>
         </div>
         <div className={classes.right}>
-          <h1>Twoja nauka, Twój styl!</h1>
+          <h1>Twoja nauka, Twój styl</h1>
           <h2>
             Dodaj ulubione zwroty lub podaj słowo, a my stworzymy za Ciebie
-            zdania z jego użyciem!
+            zdania z jego użyciem
           </h2>
           <div className={classes.buttons}>
             <button className={classes.button}>Podaj zwrot</button>

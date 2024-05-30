@@ -17,25 +17,23 @@ export default function Login({ toggleAuthMode }) {
     </div>
   );
   const [content, setContent] = useState(defaultMessage);
-  const [attemptedLogin, setAttemptedLogin] = useState(false);
 
   useEffect(() => {
     if (auth.token) {
       navigate("/dashboard");
     }
-  }, [auth.token, navigate]);
-
-  useEffect(() => {
-    if (attemptedLogin && auth.errorMessage && error !== auth.errorMessage) {
+    if (auth.errorMessage && error !== auth.errorMessage) {
       setError(auth.errorMessage);
       setContent(<div className={classes.error}>{auth.errorMessage}</div>);
+    } else {
+      setError(null);
+      setContent(defaultMessage);
     }
-  }, [auth.errorMessage, error, attemptedLogin]);
+  }, [auth.token, auth.errorMessage, navigate]);
 
   const handleFocus = () => {
     setError(null);
     setContent(defaultMessage);
-    setAttemptedLogin(false);
   };
 
   const handleLogin = async (event) => {
@@ -45,10 +43,8 @@ export default function Login({ toggleAuthMode }) {
       username: formData.get("login"),
       password: formData.get("password"),
     };
-
     setError(null);
     setContent(defaultMessage);
-    setAttemptedLogin(true);
     dispatch(loginAction(loginData));
   };
 
