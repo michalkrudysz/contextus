@@ -1,4 +1,5 @@
 import classes from "./styles/StartModule.module.scss";
+import { Link } from "react-router-dom";
 
 export default function StartModule({ username }) {
   return (
@@ -28,7 +29,9 @@ export default function StartModule({ username }) {
             zdania z jego użyciem
           </h2>
           <div className={classes.buttons}>
-            <button className={classes.button}>Podaj zwrot</button>
+            <Link to="/dashboard/addphrase" className={classes.button}>
+              Dodaj zwrot
+            </Link>
             <button className={classes.button}>Podaj słowo</button>
           </div>
         </div>

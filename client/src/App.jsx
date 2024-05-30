@@ -2,6 +2,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from "./pages/Home";
 import Dashboard from "./pages/Dashboard";
 import ProtectedRoute from "./pages/ProtectedRoute";
+import AddPhrase from "./pages/AddPhrase";
 
 const router = createBrowserRouter([
   {
@@ -11,11 +12,14 @@ const router = createBrowserRouter([
   {
     path: "dashboard",
     element: <ProtectedRoute />,
-
     children: [
       {
-        path: "",
+        index: true,
         element: <Dashboard />,
+      },
+      {
+        path: "addphrase",
+        element: <AddPhrase />,
       },
     ],
   },
