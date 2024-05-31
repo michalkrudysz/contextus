@@ -1,14 +1,14 @@
-const jwt = require("jsonwebtoken");
-const bcrypt = require("bcryptjs");
-const db = require("../config/dbConfig");
-const { jwtSecret } = require("../config/jwtConfig");
-const { registerValidation } = require("./validationService");
+import jwt from "jsonwebtoken";
+import bcrypt from "bcryptjs";
+import db from "../config/dbConfig.js";
+import { jwtSecret } from "../config/jwtConfig.js";
+import { registerValidation } from "./validationService.js";
 
-exports.authenticateUser = async (username, password) => {
+export const authenticateUser = async (username, password) => {
   try {
-    const [users] = await db
-      .promise()
-      .query("SELECT * FROM users WHERE username = ?", [username]);
+    const [users] = await db.query("SELECT * FROM users WHERE username = ?", [
+      username,
+    ]);
     if (users.length === 0) {
       return { success: false, message: "Użytkownik nie istnieje" };
     }
@@ -36,7 +36,7 @@ exports.authenticateUser = async (username, password) => {
   }
 };
 
-exports.registerUser = async (
+export const registerUser = async (
   firstname,
   username,
   email,
@@ -55,12 +55,10 @@ exports.registerUser = async (
       return { success: false, message: error.details[0].message };
     }
 
-    const [existing] = await db
-      .promise()
-      .query("SELECT * FROM users WHERE username = ? OR email = ?", [
-        username,
-        email,
-      ]);
+    const [existing] = await db.query(
+      "SELECT * FROM users WHERE username = ? OR email = ?",
+      [username, email]
+    );
     if (existing.length > 0) {
       return {
         success: false,
@@ -70,14 +68,12 @@ exports.registerUser = async (
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    await db
-      .promise()
-      .query(
-        "INSERT INTO users (firstname, username, email, password, created_at) VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP)",
-        [firstname, username, email, hashedPassword]
-      );
+    await db.query(
+      "INSERT INTO users (firstname, username, email, password, created_at) VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP)",
+      [firstname, username, email, hashedPassword]
+    );
 
-    const token = jwt.sign({ username: username }, jwtSecret, {
+    const token = jwt.sign({ username }, jwtSecret, {
       expiresIn: "1h",
     });
 
@@ -89,4 +85,9 @@ exports.registerUser = async (
       error: error.message,
     };
   }
+};
+
+export default {
+  authenticateUser,
+  registerUser,
 };

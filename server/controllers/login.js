@@ -1,6 +1,6 @@
-const authService = require("../services/authService");
+import authService from "../services/authService.js";
 
-exports.login = async (req, res) => {
+export const login = async (req, res) => {
   const { username, password } = req.body;
   const authResult = await authService.authenticateUser(username, password);
 

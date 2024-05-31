@@ -1,6 +1,6 @@
-const authService = require("../services/authService");
+import authService from "../services/authService.js";
 
-exports.register = async (req, res) => {
+export const register = async (req, res) => {
   const { firstname, username, email, password, repeatPassword } = req.body;
   const registerResult = await authService.registerUser(
     firstname,
@@ -11,12 +11,10 @@ exports.register = async (req, res) => {
   );
 
   if (registerResult.success) {
-    res
-      .status(201)
-      .json({
-        message: "Rejestracja pomyślna",
-        user: { firstname, username, email },
-      });
+    res.status(201).json({
+      message: "Rejestracja pomyślna",
+      user: { firstname, username, email },
+    });
   } else {
     res.status(400).json({ message: registerResult.message });
   }

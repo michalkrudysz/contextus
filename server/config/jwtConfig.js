@@ -1,5 +1,4 @@
-require("dotenv").config();
+import dotenv from "dotenv";
+dotenv.config();
 
-module.exports = {
-  jwtSecret: process.env.JWT_SECRET,
-};
+export const jwtSecret = process.env.JWT_SECRET;

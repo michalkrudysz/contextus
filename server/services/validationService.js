@@ -1,4 +1,4 @@
-const Joi = require("joi");
+import Joi from "joi";
 
 const schema = Joi.object({
   firstname: Joi.string().min(1).max(100).required().label("Imię").messages({
@@ -42,6 +42,4 @@ const registerValidation = (data) => {
   return schema.validate(data, { abortEarly: false });
 };
 
-module.exports = {
-  registerValidation,
-};
+export { registerValidation };
