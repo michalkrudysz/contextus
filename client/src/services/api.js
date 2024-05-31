@@ -1,11 +1,12 @@
 import { API_BASE_URL } from "../config/apiConfig";
 
-export const apiRequest = async (endpoint, method, body) => {
+export const apiRequest = async (endpoint, method, body, headers = {}) => {
   try {
     const response = await fetch(`${API_BASE_URL}${endpoint}`, {
       method,
       headers: {
         "Content-Type": "application/json",
+        ...headers,
       },
       body: JSON.stringify(body),
     });

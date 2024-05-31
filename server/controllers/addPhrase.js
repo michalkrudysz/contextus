@@ -1,4 +1,3 @@
-// controllers/addPhrase.js
 import { addPhraseService } from "../services/addPhraseService.js";
 import { validationResult } from "express-validator";
 
