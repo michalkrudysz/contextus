@@ -19,7 +19,12 @@ export default function StartModule({ username }) {
             </span>
           </h2>
           <div className={classes.buttons}>
-            <button className={classes.button}>Rozpocznij naukę</button>
+            <Link
+              to="/dashboard/startlearning"
+              className={`${classes.button} ${classes["left-button"]}`}
+            >
+              Rozpocznij naukę
+            </Link>
           </div>
         </div>
         <div className={classes.right}>
@@ -29,10 +34,15 @@ export default function StartModule({ username }) {
             zdania z jego użyciem
           </h2>
           <div className={classes.buttons}>
-            <Link to="/dashboard/addphrase" className={classes.button}>
+            <Link
+              to="/dashboard/addphrase"
+              className={`${classes.button} ${classes["right-button"]}`}
+            >
               Dodaj zwrot
             </Link>
-            <button className={classes.button}>Podaj słowo</button>
+            <button className={`${classes.button} ${classes["right-button"]}`}>
+              Podaj słowo
+            </button>
           </div>
         </div>
       </div>

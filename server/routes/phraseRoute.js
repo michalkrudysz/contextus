@@ -1,6 +1,7 @@
 import express from "express";
 import { addPhrase } from "../controllers/addPhrase.js";
-import { body } from "express-validator";
+import { getPhrases } from "../controllers/getPhrase.js";
+import { body, param } from "express-validator";
 
 const router = express.Router();
 
@@ -15,5 +16,7 @@ router.post(
   ],
   addPhrase
 );
+
+router.get("/getPhrase/:userId", [param("userId").isInt()], getPhrases);
 
 export default router;

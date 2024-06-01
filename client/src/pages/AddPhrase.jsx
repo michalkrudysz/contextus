@@ -45,7 +45,7 @@ export default function AddPhrase() {
         setError(response.message);
       } else {
         console.log("Dane zapisane pomyślnie:", response.data);
-        setSuccess("Zwrot został poprawnie dodany");
+        setSuccess("Zwrot został pomyślnie dodany");
         setTimeout(() => {
           navigate("..");
         }, 1500);

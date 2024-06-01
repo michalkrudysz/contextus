@@ -3,6 +3,7 @@ import Home from "./pages/Home";
 import Dashboard from "./pages/Dashboard";
 import ProtectedRoute from "./pages/ProtectedRoute";
 import AddPhrase from "./pages/AddPhrase";
+import StartLearning from "./pages/StartLearning";
 
 const router = createBrowserRouter([
   {
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
       {
         path: "addphrase",
         element: <AddPhrase />,
+      },
+      {
+        path: "startlearning",
+        element: <StartLearning />,
       },
     ],
   },
