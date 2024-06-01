@@ -22,6 +22,8 @@ export const getPhrases = async (req, res) => {
         id: index + 1,
         phrase: phrase.phrase,
         translation: phrase.translation,
+        level: phrase.level,
+        repetitions: phrase.repetitions,
       })),
     };
 

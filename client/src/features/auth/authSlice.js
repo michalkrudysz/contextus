@@ -1,5 +1,5 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { apiRequest } from "../../services/api";
+import { createSlice } from "@reduxjs/toolkit";
+import { loginAction, registerAction } from "./authThunks";
 
 const initialState = {
   token: localStorage.getItem("token") || null,
@@ -10,44 +10,6 @@ const initialState = {
   username: localStorage.getItem("username") || "",
   firstname: localStorage.getItem("firstname") || "",
 };
-
-export const loginAction = createAsyncThunk(
-  "auth/login",
-  async (loginData, { rejectWithValue }) => {
-    const result = await apiRequest("/home/login", "POST", loginData);
-    if (result.success) {
-      localStorage.setItem("token", result.data.token);
-      localStorage.setItem("userId", result.data.user.userId);
-      localStorage.setItem("username", result.data.user.username);
-      localStorage.setItem("firstname", result.data.user.firstname);
-      return result.data;
-    } else {
-      return rejectWithValue(result.message);
-    }
-  }
-);
-
-export const registerAction = createAsyncThunk(
-  "auth/register",
-  async (registerData, { rejectWithValue }) => {
-    const result = await apiRequest("/home/register", "POST", registerData);
-    if (result.success) {
-      localStorage.setItem("token", result.data.token);
-      localStorage.setItem("userId", result.data.user.userId);
-      localStorage.setItem("username", result.data.user.username);
-      localStorage.setItem("firstname", result.data.user.firstname);
-      return {
-        ...result.data,
-        loginData: {
-          username: registerData.username,
-          password: registerData.password,
-        },
-      };
-    } else {
-      return rejectWithValue(result.message);
-    }
-  }
-);
 
 const authSlice = createSlice({
   name: "auth",
@@ -78,7 +40,8 @@ const authSlice = createSlice({
         state.errorMessage = "";
       })
       .addCase(loginAction.rejected, (state, action) => {
-        state.errorMessage = action.payload;
+        state.errorMessage =
+          action.payload || "Błąd logowania. Spróbuj ponownie.";
       })
       .addCase(registerAction.fulfilled, (state, action) => {
         state.message = action.payload.message;
@@ -89,7 +52,8 @@ const authSlice = createSlice({
         state.token = action.payload.token;
       })
       .addCase(registerAction.rejected, (state, action) => {
-        state.registrationError = action.payload;
+        state.registrationError =
+          action.payload || "Błąd rejestracji. Spróbuj ponownie.";
       });
   },
 });

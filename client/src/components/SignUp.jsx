@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Input from "../UI/Input";
 import Button from "../UI/Button";
-import { registerAction, loginAction } from "../redux/slices/authSlice";
+import { registerAction, loginAction } from "../features/auth/authThunks";
 import classes from "./styles/SignUp.module.scss";
 
 const message = "Posiadasz już konto? Zaloguj się!";

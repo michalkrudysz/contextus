@@ -4,7 +4,7 @@ import classes from "./styles/Login.module.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { loginAction } from "../redux/slices/authSlice";
+import { loginAction } from "../features/auth/authThunks";
 
 export default function Login({ toggleAuthMode }) {
   const dispatch = useDispatch();

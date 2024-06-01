@@ -4,8 +4,7 @@ import { apiRequest } from "../services/api";
 import HeaderDashboard from "../components/HeaderDashboard";
 import Footer from "../components/Footer";
 import classes from "./styles/AddPhrase.module.scss";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function AddPhrase() {
   const { token, userId } = useSelector((state) => state.auth);
@@ -35,20 +34,23 @@ export default function AddPhrase() {
         Authorization: `Bearer ${token}`,
       };
 
-      const response = await apiRequest(
-        "/dashboard/addPhrase",
-        "POST",
-        body,
-        headers
-      );
-      if (!response.success) {
-        setError(response.message);
-      } else {
-        console.log("Dane zapisane pomyślnie:", response.data);
-        setSuccess("Zwrot został pomyślnie dodany");
-        setTimeout(() => {
-          navigate("..");
-        }, 1500);
+      try {
+        const response = await apiRequest(
+          "/dashboard/addPhrase",
+          "POST",
+          body,
+          headers
+        );
+        if (!response.success) {
+          setError(response.message);
+        } else {
+          setSuccess("Zwrot został pomyślnie dodany");
+          setTimeout(() => {
+            navigate("..");
+          }, 1500);
+        }
+      } catch (error) {
+        setError(error.message);
       }
     } else {
       if (phraseEnglish.length < 2 && phrasePolish.length < 2) {
