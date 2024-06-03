@@ -9,7 +9,6 @@ import Footer from "../components/Footer";
 export default function StartLearning() {
   const dispatch = useDispatch();
   const userId = useSelector((state) => state.auth.userId);
-  const { loading, error } = useSelector((state) => state.learning);
 
   useEffect(() => {
     if (userId) {
@@ -20,8 +19,6 @@ export default function StartLearning() {
   return (
     <main className={classes["start-learning"]}>
       <HeaderDashboard />
-      {loading && <p>Loading...</p>}
-      {error && <p>Error: {error}</p>}
       <LearningModule />
       <Footer />
     </main>

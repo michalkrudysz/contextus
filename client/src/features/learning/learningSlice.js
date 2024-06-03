@@ -2,12 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { fetchPhrase } from "./learningThunks";
 
 const initialState = {
-  red: [],
-  orange: [],
-  yellow: [],
-  green: [],
-  blue: [],
-  silver: [],
+  phrases: [],
   loading: false,
   error: null,
 };
@@ -15,98 +10,55 @@ const initialState = {
 const learningSlice = createSlice({
   name: "learning",
   initialState,
-  reducers: {},
+  reducers: {
+    updatePhraseSuccess: (state, action) => {
+      const { id, lastReviewDate, level } = action.payload;
+      const index = state.phrases.findIndex((phrase) => phrase.id === id);
+      if (index !== -1) {
+        state.phrases[index].lastReviewDate = lastReviewDate;
+        state.phrases[index].level = level;
+        state.phrases[index].repetitions += 1;
+        switch (level) {
+          case 1:
+            state.phrases[index].reviewInterval = 1;
+            break;
+          case 2:
+            state.phrases[index].reviewInterval = 2;
+            break;
+          case 3:
+            state.phrases[index].reviewInterval = 7;
+            break;
+          case 4:
+            state.phrases[index].reviewInterval = 14;
+            break;
+          case 5:
+            state.phrases[index].reviewInterval = 30;
+            break;
+          case 6:
+            state.phrases[index].reviewInterval = 60;
+            break;
+          default:
+            break;
+        }
+      }
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchPhrase.pending, (state) => {
         state.loading = true;
         state.error = null;
-        console.log("Fetching phrase: Loading state set to true.");
       })
       .addCase(fetchPhrase.fulfilled, (state, action) => {
+        state.phrases = action.payload.phrases;
         state.loading = false;
-        console.log("Received phrases:", action.payload.phrases);
-        action.payload.phrases.forEach((item) => {
-          switch (item.level) {
-            case 1:
-              state.red.push(item);
-              console.log(`Added to red:`, item);
-              break;
-            case 2:
-              state.orange.push(item);
-              console.log(`Added to orange:`, item);
-              break;
-            case 3:
-              state.yellow.push(item);
-              console.log(`Added to yellow:`, item);
-              break;
-            case 4:
-              state.green.push(item);
-              console.log(`Added to green:`, item);
-              break;
-            case 5:
-              state.blue.push(item);
-              console.log(`Added to blue:`, item);
-              break;
-            case 6:
-              state.silver.push(item);
-              console.log(`Added to silver:`, item);
-              break;
-            default:
-              console.log("Unexpected level:", item.level);
-          }
-        });
-
-        const totalCount =
-          state.red.length +
-          state.orange.length +
-          state.yellow.length +
-          state.green.length +
-          state.blue.length +
-          state.silver.length;
-        console.log("Total count of phrases:", totalCount);
-        console.log(
-          `Percentage - Red: ${((state.red.length / totalCount) * 100).toFixed(
-            2
-          )}%`
-        );
-        console.log(
-          `Percentage - Orange: ${(
-            (state.orange.length / totalCount) *
-            100
-          ).toFixed(2)}%`
-        );
-        console.log(
-          `Percentage - Yellow: ${(
-            (state.yellow.length / totalCount) *
-            100
-          ).toFixed(2)}%`
-        );
-        console.log(
-          `Percentage - Green: ${(
-            (state.green.length / totalCount) *
-            100
-          ).toFixed(2)}%`
-        );
-        console.log(
-          `Percentage - Blue: ${(
-            (state.blue.length / totalCount) *
-            100
-          ).toFixed(2)}%`
-        );
-        console.log(
-          `Percentage - Silver: ${(
-            (state.silver.length / totalCount) *
-            100
-          ).toFixed(2)}%`
-        );
       })
       .addCase(fetchPhrase.rejected, (state, action) => {
-        state.error = action.payload;
         state.loading = false;
-        console.log("Fetch failed:", action.payload);
+        state.error = action.payload || "Nie udało się pobrać fraz."; // ustawienie błędu
       });
   },
 });
 
+export const { updatePhraseSuccess } = learningSlice.actions;
 export default learningSlice.reducer;

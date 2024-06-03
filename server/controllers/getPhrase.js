@@ -24,6 +24,8 @@ export const getPhrases = async (req, res) => {
         translation: phrase.translation,
         level: phrase.level,
         repetitions: phrase.repetitions,
+        lastReviewDate: phrase.last_review_date.toISOString().split("T")[0],
+        reviewInterval: phrase.review_interval,
       })),
     };
 
