@@ -13,6 +13,8 @@ router.post(
     body("translation").isString().notEmpty(),
     body("level").isInt({ min: 1, max: 6 }),
     body("source").isIn(["AI", "manual"]),
+    body("last_review_date").isISO8601().toDate(),
+    body("review_interval").isInt({ min: 1 }),
   ],
   addPhrase
 );

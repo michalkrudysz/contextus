@@ -22,12 +22,16 @@ export default function AddPhrase() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (phraseEnglish.length >= 2 && phrasePolish.length >= 2) {
+      const currentDate = new Date().toISOString().split("T")[0];
+
       const body = {
         user_id: userId,
         phrase: phraseEnglish,
         translation: phrasePolish,
         level: 1,
         source: "manual",
+        last_review_date: currentDate,
+        review_interval: 1,
       };
 
       const headers = {

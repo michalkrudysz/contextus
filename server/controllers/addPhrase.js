@@ -7,7 +7,16 @@ export const addPhrase = async (req, res) => {
     return res.status(400).json({ errors: errors.array() });
   }
 
-  const { user_id, phrase, translation, level, source } = req.body;
+  const {
+    user_id,
+    phrase,
+    translation,
+    level,
+    source,
+    last_review_date,
+    review_interval,
+  } = req.body;
+
   try {
     const result = await addPhraseService({
       user_id,
@@ -15,6 +24,8 @@ export const addPhrase = async (req, res) => {
       translation,
       level,
       source,
+      last_review_date,
+      review_interval,
     });
     res.status(201).json(result);
   } catch (error) {
