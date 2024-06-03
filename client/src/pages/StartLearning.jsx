@@ -3,11 +3,13 @@ import { useSelector, useDispatch } from "react-redux";
 import { fetchPhrase } from "../features/learning/learningThunks";
 import classes from "./styles/StartLearning.module.scss";
 import HeaderDashboard from "../components/HeaderDashboard";
+import LearningModule from "../components/LearningModule";
+import Footer from "../components/Footer";
 
 export default function StartLearning() {
   const dispatch = useDispatch();
   const userId = useSelector((state) => state.auth.userId);
-  const { phrase, loading, error } = useSelector((state) => state.learning);
+  const { loading, error } = useSelector((state) => state.learning);
 
   useEffect(() => {
     if (userId) {
@@ -20,7 +22,8 @@ export default function StartLearning() {
       <HeaderDashboard />
       {loading && <p>Loading...</p>}
       {error && <p>Error: {error}</p>}
-      {phrase && <pre>{JSON.stringify(phrase, null, 2)}</pre>}
+      <LearningModule />
+      <Footer />
     </main>
   );
 }

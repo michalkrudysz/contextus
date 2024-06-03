@@ -1,0 +1,113 @@
+.content {
+  display: flex;
+  flex-direction: column;
+  background-color: #fdf6d46e;
+  position: relative;
+  justify-content: center;
+  height: 100%;
+  margin-bottom: 7em;
+  margin-top: 2em;
+  padding: 2em 10em;
+  border-right: #bf2633 5px solid;
+  border-bottom: #bf2633 5px solid;
+  border-left: #bf2633 5px solid;
+  border-radius: 0px 0px 10px 10px;
+  -webkit-box-shadow: -1px 1px 21px -7px rgba(0, 0, 0, 0.39);
+  -moz-box-shadow: -1px 1px 21px -7px rgba(0, 0, 0, 0.39);
+  box-shadow: -1px 1px 21px -7px rgba(0, 0, 0, 0.39);
+
+  h1 {
+    font-size: 1.8em;
+    font-weight: 500;
+    margin-bottom: 0.2em;
+  }
+  h2 {
+    margin-top: 1em;
+    font-weight: 400;
+    font-size: 1.1em;
+  }
+  .level-info {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 1em;
+    text-align: center;
+    h2 {
+      font-size: 1.3em;
+      font-weight: 400;
+      letter-spacing: 0.01em;
+      span {
+        color: #bf2633;
+        font-weight: 500;
+        text-transform: uppercase;
+      }
+    }
+    h3 {
+      margin-top: 0.3em;
+      font-weight: 400;
+      letter-spacing: 0.01em;
+      span {
+        color: #bf2633;
+        font-weight: 500;
+        text-transform: uppercase;
+      }
+    }
+  }
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.input {
+  all: unset;
+  background-color: #f2edd5;
+  margin-top: 1em;
+  border: 1px solid #4988bf;
+  border-radius: 5px;
+  width: 45em;
+  height: 1.8em;
+  padding: 1em 1em;
+}
+
+.buttons {
+  margin-top: 1em;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+
+  .button {
+    all: unset;
+    cursor: pointer;
+    background-color: #f26b5e;
+    color: #f2edd5;
+    text-align: center;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    border-radius: 5px;
+    width: 10em;
+    height: 2.8em;
+    line-height: 2.8em;
+    margin-right: 0.1em;
+    margin-left: 0.1em;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background-color: #fd6557;
+      -webkit-box-shadow: 1px 1px 34px -9px rgba(253, 101, 87, 1);
+      -moz-box-shadow: 1px 1px 34px -9px rgba(253, 101, 87, 1);
+      box-shadow: 1px 1px 34px -9px rgba(253, 101, 87, 1);
+    }
+  }
+
+  .synchronize {
+    background-color: #4988bf;
+    &:hover {
+      background-color: #478ecc;
+      -webkit-box-shadow: 1px 1px 34px -9px rgba(65, 145, 214, 1);
+      -moz-box-shadow: 1px 1px 34px -9px rgba(65, 145, 214, 1);
+      box-shadow: 1px 1px 34px -9px rgba(65, 145, 214, 1);
+    }
+  }
+}
