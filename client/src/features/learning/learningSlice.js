@@ -42,6 +42,16 @@ const learningSlice = createSlice({
         }
       }
     },
+    updatePhraseFailure: (state, action) => {
+      const { id, lastReviewDate } = action.payload;
+      const index = state.phrases.findIndex((phrase) => phrase.id === id);
+      if (index !== -1) {
+        state.phrases[index].lastReviewDate = lastReviewDate;
+        state.phrases[index].level = 1;
+        state.phrases[index].repetitions += 1;
+        state.phrases[index].reviewInterval = 1;
+      }
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -55,10 +65,11 @@ const learningSlice = createSlice({
       })
       .addCase(fetchPhrase.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload || "Nie udało się pobrać fraz."; // ustawienie błędu
+        state.error = action.payload || "Nie udało się pobrać fraz.";
       });
   },
 });
 
-export const { updatePhraseSuccess } = learningSlice.actions;
+export const { updatePhraseSuccess, updatePhraseFailure } =
+  learningSlice.actions;
 export default learningSlice.reducer;

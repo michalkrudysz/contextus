@@ -20,3 +20,18 @@ export const selectReadyForReviewPhrases = createSelector(
     });
   }
 );
+
+export const selectPhrasesCountByLevel = createSelector(
+  [getPhrases],
+  (phrases) => {
+    return phrases.reduce((countByLevel, phrase) => {
+      const { level } = phrase;
+      if (countByLevel[level]) {
+        countByLevel[level]++;
+      } else {
+        countByLevel[level] = 1;
+      }
+      return countByLevel;
+    }, {});
+  }
+);

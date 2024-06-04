@@ -1,131 +1,174 @@
 import { Link } from "react-router-dom";
 import classes from "./styles/LearningModule.module.scss";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import {
   selectReadyForReviewPhrases,
-  selectPhrases,
+  selectPhrasesCountByLevel,
 } from "../features/learning/learningSelectors";
 import { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { updatePhraseSuccess } from "../features/learning/learningSlice";
+import {
+  updatePhraseSuccess,
+  updatePhraseFailure,
+} from "../features/learning/learningSlice";
 
 export default function LearningModule() {
-  // Pobieranie danych z Redux store
-  const allPhrases = useSelector(selectPhrases);
   const reviewPhrases = useSelector(selectReadyForReviewPhrases);
+  const phrasesCountByLevel = useSelector(selectPhrasesCountByLevel);
+
   const dispatch = useDispatch();
 
-  // Logowanie wszystkich zwrotów
-  useEffect(() => {
-    console.log("All phrases:", allPhrases);
-  }, [allPhrases]);
-
-  // Ustawianie aktualnego zwrotu
-  const [currentPhrase, setCurrentPhrase] = useState(
-    reviewPhrases.length > 0 ? reviewPhrases[0] : {}
+  const [currentPhrase, setCurrentPhrase] = useState(reviewPhrases[0] || {});
+  const [translation, setTranslation] = useState("");
+  const [answerResult, setAnswerResult] = useState(null);
+  const [buttonContent, setButtonContent] = useState("Sprawdź");
+  const [currentLanguagePhrase, setCurrentLanguagePhrase] = useState(
+    currentPhrase.translation || ""
   );
+  const [isSessionComplete, setIsSessionComplete] = useState(false);
 
-  // Aktualizacja `currentPhrase` gdy `reviewPhrases` się zmienia
   useEffect(() => {
     if (reviewPhrases.length > 0) {
       setCurrentPhrase(reviewPhrases[0]);
+      setCurrentLanguagePhrase(reviewPhrases[0].translation);
     }
   }, [reviewPhrases]);
 
-  // Zarządzanie stanem wejściowym
-  const [translation, setTranslation] = useState("");
-
-  const handleTranslationChange = (event) => {
-    setTranslation(event.target.value);
-  };
-
-  const [answerResult, setAnswerResult] = useState(null);
+  const level = currentPhrase.level || null;
+  const phrasesCount = phrasesCountByLevel[level] || 0;
 
   const handleFormSubmit = (event) => {
     event.preventDefault();
-    if (translation === currentPhrase.phrase) {
+    if (
+      translation.toLowerCase().trim() ===
+      currentPhrase.phrase.toLowerCase().trim()
+    ) {
       setAnswerResult("correct");
-
-      // Aktualizacja frazy tylko jeśli odpowiedź jest poprawna
-      const updatedPhrase = {
-        id: currentPhrase.id,
-        lastReviewDate: new Date().toISOString(),
-        level: currentPhrase.level < 6 ? currentPhrase.level + 1 : 6, // Asumujemy, że 6 to maksymalny poziom
-      };
-
-      // Dispatch akcji z zaktualizowanymi danymi
-      dispatch(updatePhraseSuccess(updatedPhrase));
+      setButtonContent("Dalej");
     } else {
       setAnswerResult("incorrect");
+      setButtonContent("Dalej");
     }
   };
 
-  const [currentLanguagePhrase, setCurrentLanguagePhrase] = useState(
-    currentPhrase.translation
-  );
-  useEffect(() => {
-    setCurrentLanguagePhrase(currentPhrase.translation);
-  }, [currentPhrase.translation]);
+  const handleNextPhrase = () => {
+    if (reviewPhrases.length > 0) {
+      const currentIndex = reviewPhrases.indexOf(currentPhrase);
+      const nextIndex = currentIndex + 1;
+      let nextPhrase;
 
-  const checkTranslation = () => {
-    // Jeśli aktualnie wyświetlany tekst jest tłumaczeniem, pokaż oryginalny zwrot
-    if (currentLanguagePhrase === currentPhrase.translation) {
-      setCurrentLanguagePhrase(currentPhrase.phrase);
-    } else {
-      // W przeciwnym razie pokaż tłumaczenie
-      setCurrentLanguagePhrase(currentPhrase.translation);
+      if (nextIndex < reviewPhrases.length) {
+        nextPhrase = reviewPhrases[nextIndex];
+      }
+
+      if (answerResult === "correct") {
+        // Aktualizacja stanu zwrotu przy poprawnej odpowiedzi
+        const updatedPhrase = {
+          ...currentPhrase,
+          lastReviewDate: new Date().toISOString(),
+          level: currentPhrase.level < 6 ? currentPhrase.level + 1 : 6,
+        };
+        dispatch(updatePhraseSuccess(updatedPhrase));
+      } else if (answerResult === "incorrect") {
+        // Aktualizacja stanu zwrotu przy błędnej odpowiedzi
+        const failureUpdate = {
+          id: currentPhrase.id,
+          lastReviewDate: new Date().toISOString(),
+        };
+        dispatch(updatePhraseFailure(failureUpdate));
+      }
+
+      if (nextPhrase) {
+        // Aktualizacja lokalnych stanów dla nowego zwrotu
+        setCurrentPhrase(nextPhrase);
+        setCurrentLanguagePhrase(nextPhrase.translation);
+        setTranslation("");
+        setAnswerResult(null);
+        setButtonContent("Sprawdź");
+      } else {
+        setIsSessionComplete(true);
+      }
     }
+  };
+
+  const togglePhrase = () => {
+    setCurrentLanguagePhrase(
+      currentLanguagePhrase === currentPhrase.translation
+        ? currentPhrase.phrase
+        : currentPhrase.translation
+    );
   };
 
   return (
     <div className={classes.content}>
-      <h1>Przetłumacz wyświetlony zwrot na język angielski</h1>
-      <h2>{currentLanguagePhrase}</h2>
-      <div className={classes.translation}>
-        <button
-          className={classes["translation-button"]}
-          type="submit"
-          onClick={checkTranslation}
-        >
-          {currentLanguagePhrase === currentPhrase.phrase
-            ? "Pokaż zwrot"
-            : "Pokaż tłumaczenie"}
-        </button>
-      </div>
-      <form className={classes.form} onSubmit={handleFormSubmit}>
-        <input
-          className={classes.input}
-          type="text"
-          placeholder="Wprowadź tłumaczenie na angielski"
-          value={translation}
-          onChange={handleTranslationChange}
-        />
-
-        <div className={classes.info}>
-          {answerResult === "correct" && (
-            <p className={classes.correct}>Poprawna odpowiedź!</p>
-          )}
-          {answerResult === "incorrect" && (
-            <p className={classes.incorrect}>Niepoprawna odpowiedź!</p>
-          )}
+      {isSessionComplete ? (
+        <div className={classes.sessionComplete}>
+          <h2>
+            Zgodnie z metodą nauki SRS, przećwiczyłeś dzisiaj wszystko. Dodaj
+            nowe zwroty.
+          </h2>
         </div>
-        <div className={classes.buttons}>
-          <Link to=".." className={`${classes.button} ${classes.synchronize}`}>
-            Synchronizuj
-          </Link>
-          <button className={classes.button} type="submit">
-            Sprawdź
-          </button>
-        </div>
-      </form>
-      <div className={classes["level-info"]}>
-        <h2>
-          Poziom:<span>pierwszy</span>
-        </h2>
-        <h3>
-          Ilość zwrotów: <span>20</span>
-        </h3>
-      </div>
+      ) : (
+        <>
+          <h1>Przetłumacz wyświetlony zwrot na język angielski</h1>
+          <h2>{currentLanguagePhrase}</h2>
+          <div className={classes.translation}>
+            <button
+              className={classes["translation-button"]}
+              type="button"
+              onClick={togglePhrase}
+            >
+              {currentLanguagePhrase === currentPhrase.translation
+                ? "Pokaż tłumaczenie"
+                : "Pokaż zwrot"}
+            </button>
+          </div>
+          <form className={classes.form} onSubmit={handleFormSubmit}>
+            <input
+              className={classes.input}
+              type="text"
+              placeholder="Wprowadź tłumaczenie na angielski"
+              value={translation}
+              onChange={(e) => setTranslation(e.target.value)}
+            />
+            {answerResult !== null && (
+              <div className={classes.info}>
+                {answerResult === "correct" ? (
+                  <p className={classes.correct}>Poprawna odpowiedź!</p>
+                ) : (
+                  <p className={classes.incorrect}>Niepoprawna odpowiedź!</p>
+                )}
+              </div>
+            )}
+            <div className={classes.buttons}>
+              <Link
+                to=".."
+                className={`${classes.button} ${classes.synchronize}`}
+              >
+                Synchronizuj
+              </Link>
+              <button
+                className={classes.button}
+                type="button"
+                onClick={
+                  buttonContent === "Dalej"
+                    ? handleNextPhrase
+                    : handleFormSubmit
+                }
+              >
+                {buttonContent}
+              </button>
+            </div>
+          </form>
+          <div className={classes["level-info"]}>
+            <h2>
+              Poziom: <span>{level}</span>
+            </h2>
+            <h3>
+              Ilość zwrotów: <span>{phrasesCount}</span>
+            </h3>
+          </div>
+        </>
+      )}
     </div>
   );
 }
