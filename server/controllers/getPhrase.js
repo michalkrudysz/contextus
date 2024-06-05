@@ -18,8 +18,8 @@ export const getPhrases = async (req, res) => {
     }
 
     const response = {
-      phrases: phrases.map((phrase, index) => ({
-        id: index + 1,
+      phrases: phrases.map((phrase) => ({
+        id: phrase.id,
         phrase: phrase.phrase,
         translation: phrase.translation,
         level: phrase.level,
