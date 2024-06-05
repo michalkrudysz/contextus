@@ -6,12 +6,14 @@
   "main": "server.js",
   "scripts": {
     "start": "cross-env NODE_ENV=production node server.js",
-    "dev": "cross-env NODE_ENV=development nodemon server.js"
+    "dev": "cross-env NODE_ENV=development nodemon server.js",
+    "start-worker": "node ./workers/phraseWorker.js"
   },
   "keywords": [],
   "author": "Michał Krudysz",
   "license": "All Rights Reserved",
   "dependencies": {
+    "amqplib": "^0.10.4",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
