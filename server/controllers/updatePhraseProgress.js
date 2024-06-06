@@ -8,8 +8,9 @@ export async function updatePhraseProgress(req, res) {
   }
 
   const { id, lastReviewDate, level, repetitions, reviewInterval } = req.body;
+
   const date = new Date(lastReviewDate);
-  const formattedDate = date.toISOString().slice(0, 19).replace("T", " ");
+  const formattedDate = date.toISOString().split("T")[0];
 
   try {
     await enqueuePhraseUpdate({
@@ -19,12 +20,12 @@ export async function updatePhraseProgress(req, res) {
       repetitions,
       reviewInterval,
     });
-    res
-      .status(202)
-      .send("Update request received, processing will be done asynchronously");
+
+    res.status(202).send("Żądanie aktualizacji odebrane.");
   } catch (error) {
-    res
-      .status(500)
-      .json({ message: "Error enqueuing the update", error: error.message });
+    res.status(500).json({
+      message: "Błąd podczas dodawania do kolejki",
+      error: error.message,
+    });
   }
 }

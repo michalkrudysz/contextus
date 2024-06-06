@@ -2,29 +2,34 @@ import connectRabbitMQ from "../config/amqpConfig.js";
 import { updatePhraseProgress } from "../services/updatePhraseProgressService.js";
 
 async function startWorker() {
-  const { channel } = await connectRabbitMQ();
+  try {
+    const { channel } = await connectRabbitMQ();
+    setupConsumer(channel);
+  } catch (error) {
+    console.error("Nie udało się uruchomić workera z powodu błędu:", error);
+  }
+}
 
-  channel.consume(
-    "phraseUpdateQueue",
-    async (msg) => {
-      if (msg && msg.content) {
-        const data = JSON.parse(msg.content.toString());
-        try {
-          await updatePhraseProgress(data);
-          channel.ack(msg);
-        } catch (error) {
-          channel.nack(msg);
-        }
-      } else {
-        throw new Error(
-          "Received null or empty message, invalid message properties."
-        );
-      }
-    },
-    {
-      noAck: false,
+function setupConsumer(channel) {
+  channel.consume("phraseUpdateQueue", (msg) => messageHandler(msg, channel), {
+    noAck: false,
+  });
+}
+
+async function messageHandler(msg, channel) {
+  if (msg && msg.content) {
+    const data = JSON.parse(msg.content.toString());
+    try {
+      await updatePhraseProgress(data);
+      channel.ack(msg);
+    } catch (error) {
+      console.error("Błąd podczas przetwarzania wiadomości:", error);
+      channel.nack(msg);
     }
-  );
+  } else {
+    console.error("Otrzymano pustą lub nieprawidłową wiadomość.");
+    channel.nack(msg);
+  }
 }
 
 startWorker();

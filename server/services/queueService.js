@@ -8,6 +8,7 @@ export async function enqueuePhraseUpdate(data) {
   try {
     channel.sendToQueue(queue, messageBuffer, { persistent: true });
   } catch (error) {
-    throw new Error(`Failed to send to queue: ${error.message}`);
+    console.error(`Nie udało się wysłać do kolejki: ${error.message}`, error);
+    throw new Error(`Nie udało się wysłać do kolejki: ${error.message}`);
   }
 }
