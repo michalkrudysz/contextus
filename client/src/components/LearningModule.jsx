@@ -6,6 +6,7 @@ import {
   selectPhrasesCountByLevel,
 } from "../features/learning/learningSelectors";
 import { usePhraseLogic } from "../utils/usePhraseLogic";
+import { useEffect, useState } from "react";
 
 export default function LearningModule() {
   const reviewPhrases = useSelector(selectReadyForReviewPhrases);
@@ -27,8 +28,36 @@ export default function LearningModule() {
   const phrasesCount = phrasesCountByLevel[level] || 0;
   const isSessionComplete = reviewPhrases.length === 0;
 
+  const [levelColor, setLevelColor] = useState(null);
+
+  useEffect(() => {
+    switch (level) {
+      case 1:
+        setLevelColor(classes.red);
+        break;
+      case 2:
+        setLevelColor(classes.orange);
+        break;
+      case 3:
+        setLevelColor(classes.yellow);
+        break;
+      case 4:
+        setLevelColor(classes.green);
+        break;
+      case 5:
+        setLevelColor(classes.blue);
+        break;
+      case 6:
+        setLevelColor(classes.silver);
+        break;
+      default:
+        setLevelColor(null);
+        break;
+    }
+  }, [level]);
+
   return (
-    <div className={classes.content}>
+    <div className={`${classes.content} ${levelColor}`}>
       {isSessionComplete ? (
         <div className={classes.sessionComplete}>
           <h2>
@@ -42,7 +71,7 @@ export default function LearningModule() {
           <h2>{currentLanguagePhrase}</h2>
           <div className={classes.translation}>
             <button
-              className={classes["translation-button"]}
+              className={`${classes["translation-button"]} ${levelColor}`}
               type="button"
               onClick={togglePhrase}
             >
@@ -73,7 +102,7 @@ export default function LearningModule() {
                 to=".."
                 className={`${classes.button} ${classes.synchronize}`}
               >
-                Synchronizuj
+                Wróć
               </Link>
               <button
                 className={classes.button}
@@ -88,12 +117,13 @@ export default function LearningModule() {
               </button>
             </div>
           </form>
+
           <div className={classes["level-info"]}>
             <h2>
-              Poziom: <span>{level}</span>
+              Poziom: <span className={levelColor}>{level}</span>
             </h2>
             <h3>
-              Ilość zwrotów: <span>{phrasesCount}</span>
+              Ilość zwrotów: <span className={levelColor}>{phrasesCount}</span>
             </h3>
             <p>
               Łączna ilość zwrotów do powtórzenia na dziś:{" "}
