@@ -25,3 +25,28 @@ export const fetchPhrase = createAsyncThunk(
     }
   }
 );
+
+export const updatePhraseProgress = createAsyncThunk(
+  "learning/updatePhraseProgress",
+  async (phraseData, { getState, rejectWithValue }) => {
+    const state = getState();
+    const token = state.auth.token;
+    try {
+      const result = await apiRequest(
+        "/dashboard/updatePhraseProgress",
+        "PUT",
+        phraseData,
+        {
+          Authorization: `Bearer ${token}`,
+        }
+      );
+      if (result.success) {
+        return result.data;
+      } else {
+        return rejectWithValue(result.message);
+      }
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);

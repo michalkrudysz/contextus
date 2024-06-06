@@ -4,14 +4,11 @@ import { useSelector } from "react-redux";
 import {
   selectReadyForReviewPhrases,
   selectPhrasesCountByLevel,
-  selectPhrases,
 } from "../features/learning/learningSelectors";
 import { usePhraseLogic } from "../utils/usePhraseLogic";
-import { useEffect } from "react";
 
 export default function LearningModule() {
   const reviewPhrases = useSelector(selectReadyForReviewPhrases);
-  const getPhrases = useSelector(selectPhrases);
   const phrasesCountByLevel = useSelector(selectPhrasesCountByLevel);
 
   const {
@@ -29,10 +26,6 @@ export default function LearningModule() {
   const level = currentPhrase.level || null;
   const phrasesCount = phrasesCountByLevel[level] || 0;
   const isSessionComplete = reviewPhrases.length === 0;
-
-  useEffect(() => {
-    console.log(getPhrases);
-  }, [getPhrases]);
 
   return (
     <div className={classes.content}>
