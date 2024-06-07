@@ -1,5 +1,6 @@
 import classes from "./styles/StartModule.module.scss";
 import { Link } from "react-router-dom";
+import LevelTracking from "./LevelTracking";
 
 export default function StartModule({ username }) {
   return (
@@ -18,6 +19,7 @@ export default function StartModule({ username }) {
               opanowania języka obcego
             </span>
           </h2>
+          <LevelTracking />
           <div className={classes.buttons}>
             <Link
               to="/dashboard/startlearning"
