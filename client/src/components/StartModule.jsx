@@ -42,9 +42,13 @@ export default function StartModule({ username, phraseStats }) {
             >
               Dodaj zwrot
             </Link>
-            <button className={`${classes.button} ${classes["right-button"]}`}>
+
+            <Link
+              to="/dashboard/giveword"
+              className={`${classes.button} ${classes["right-button"]}`}
+            >
               Podaj słowo
-            </button>
+            </Link>
           </div>
         </div>
       </div>

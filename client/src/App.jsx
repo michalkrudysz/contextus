@@ -4,6 +4,7 @@ import Dashboard from "./pages/Dashboard";
 import ProtectedRoute from "./pages/ProtectedRoute";
 import AddPhrase from "./pages/AddPhrase";
 import StartLearning from "./pages/StartLearning";
+import GiveWord from "./pages/GiveWord";
 
 const router = createBrowserRouter([
   {
@@ -21,6 +22,10 @@ const router = createBrowserRouter([
       {
         path: "addphrase",
         element: <AddPhrase />,
+      },
+      {
+        path: "giveword",
+        element: <GiveWord />,
       },
       {
         path: "startlearning",
