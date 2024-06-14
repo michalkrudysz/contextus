@@ -37,7 +37,7 @@ router.get("/getPhrase/:userId", [param("userId").isInt()], getPhrases);
 
 router.post(
   "/generatePhrase",
-  [body("word").isString().trim().notEmpty()],
+  [body("word").isString().trim().notEmpty(), body("userId").isInt()],
   generatePhrase
 );
 

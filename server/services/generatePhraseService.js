@@ -10,15 +10,7 @@ export async function enqueuePhraseGeneration(data) {
 
   try {
     await channel.assertQueue(queue, { durable: true });
-  } catch (assertQueueError) {
-    throw new Error(
-      `Nie udało się potwierdzić lub utworzyć kolejki: ${assertQueueError.message}`
-    );
-  }
-
-  const messageBuffer = Buffer.from(JSON.stringify(data));
-
-  try {
+    const messageBuffer = Buffer.from(JSON.stringify(data));
     channel.sendToQueue(queue, messageBuffer, { persistent: true });
     return { message: "Phrase generation request enqueued successfully" };
   } catch (error) {

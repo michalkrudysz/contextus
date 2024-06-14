@@ -11,9 +11,9 @@ export const generatePhrase = async (req, res) => {
   }
 
   try {
-    const { word } = req.body;
-    console.log("Wywoływanie enqueuePhraseGeneration z danymi:", word);
-    const response = await enqueuePhraseGeneration({ word });
+    const { word, userId } = req.body;
+    console.log("Wywoływanie enqueuePhraseGeneration z danymi:", word, userId);
+    const response = await enqueuePhraseGeneration({ word, userId });
     console.log("Odpowiedź z enqueuePhraseGeneration:", response);
     res.status(202).json(response);
   } catch (error) {

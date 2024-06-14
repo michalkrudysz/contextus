@@ -25,27 +25,20 @@ function setupConsumer(channel) {
 
 async function messageHandler(msg, channel) {
   if (msg && msg.content) {
-    const data = JSON.parse(msg.content.toString());
-    const prompt = data.word;
+    const { word, userId } = JSON.parse(msg.content.toString());
     try {
       const response = await openai.chat.completions.create({
         model: gptConfig.model,
         messages: [
           {
             role: "user",
-            content: `Generate 5 sentences, numbering from 1 to 5. First in English, then translate to Polish as e.g., 1-pl, followed by the next sentence, continuing until 5 sentences. Key word is '${prompt}'. They should be in different tenses, questions, future plans, negations.`,
+            content: `Generate phrases based on '${word}' with userId '${userId}'.`,
           },
         ],
         temperature: gptConfig.temperature,
         max_tokens: gptConfig.maxTokens,
-        top_p: gptConfig.topP,
-        frequency_penalty: gptConfig.frequencyPenalty,
-        presence_penalty: gptConfig.presencePenalty,
       });
-      channel.sendToQueue(
-        "dataProcessingQueue",
-        Buffer.from(JSON.stringify(response.choices[0].message.content))
-      );
+
       channel.ack(msg);
     } catch (error) {
       console.error(`Error processing request: ${error}`);
