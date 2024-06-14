@@ -1,5 +1,5 @@
 import { validationResult } from "express-validator";
-import { enqueuePhraseUpdate } from "../services/queueService.js";
+import { updatePhraseProgress as updateProgress } from "../services/updatePhraseProgressService.js";
 
 export async function updatePhraseProgress(req, res) {
   const errors = validationResult(req);
@@ -8,12 +8,11 @@ export async function updatePhraseProgress(req, res) {
   }
 
   const { id, lastReviewDate, level, repetitions, reviewInterval } = req.body;
-
   const date = new Date(lastReviewDate);
   const formattedDate = date.toISOString().split("T")[0];
 
   try {
-    await enqueuePhraseUpdate({
+    await updateProgress({
       id,
       lastReviewDate: formattedDate,
       level,

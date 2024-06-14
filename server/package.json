@@ -7,7 +7,9 @@
   "scripts": {
     "start": "cross-env NODE_ENV=production node server.js",
     "dev": "cross-env NODE_ENV=development nodemon server.js",
-    "worker": "node ./workers/phraseWorker.js"
+    "worker:phrase": "node ./workers/phraseWorker.js",
+    "worker:gpt": "node ./workers/gptWorker.js",
+    "workers": "concurrently \"npm run worker:phrase\" \"npm run worker:gpt\""
   },
   "keywords": [],
   "author": "Michał Krudysz",
@@ -20,11 +22,14 @@
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "express-validator": "^7.1.0",
+    "fs": "^0.0.1-security",
     "joi": "^17.13.1",
     "jsonwebtoken": "^9.0.2",
-    "mysql2": "^3.9.8"
+    "mysql2": "^3.9.8",
+    "openai": "^4.51.0"
   },
   "devDependencies": {
+    "concurrently": "^8.2.2",
     "cross-env": "^7.0.3",
     "nodemon": "^3.1.1"
   }

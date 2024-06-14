@@ -1,0 +1,64 @@
+Prompt: get
+Response: 1. Can you please put the book back on the shelf?
+1-pl. Czy mógłbyś proszę położyć książkę z powrotem na półce?
+
+2. I will put on my coat before we go outside.
+2-pl. Założę płaszcz zanim wyjdziemy na zewnątrz.
+
+3. Let's not put off studying for the exam any longer.
+3-pl. Nie odkładajmy dłużej nauki do egzaminu.
+
+4. Have you put in your request for vacation time yet?
+4-pl. Czy już złożyłeś wniosek o czas urlopowy?
+
+5. They were putting in place new safety measures at the construction site.
+5-pl. Oni wprowadzali nowe środki bezpieczeństwa na placu budowy.
+
+Prompt: genocide
+Response: 1. Can you put the book on the shelf for me?
+1-pl. Czy możesz położyć książkę na półce dla mnie?
+
+2. I will put on my coat before we go outside.
+2-pl. Założę swoją kurtkę zanim wyjdziemy na zewnątrz.
+
+3. They have never put as much effort into a project before.
+3-pl. Nigdy wcześniej nie poświęcali takiego wysiłku na projekt.
+
+4. We should not put off important tasks until the last minute.
+4-pl. Nie powinniśmy odkładać ważnych zadań na ostatnią chwilę.
+
+5. Why did you put all the blame on me?
+5-pl. Dlaczego zrzucałeś całą winę na mnie?
+
+Prompt: genocide
+Response: 1. The genocide in Rwanda was one of the deadliest in history.
+1-pl. Ludobójstwo w Rwandzie było jednym z najbardziej śmiertelnych w historii.
+
+2. Will the international community ever truly prevent genocide from happening again?
+2-pl. Czy społeczność międzynarodowa kiedykolwiek faktycznie zapobiegnie ponownemu wystąpieniu ludobójstwa?
+
+3. I will never forget the atrocities committed during the genocide in Cambodia.
+3-pl. Nigdy nie zapomnę okrucieństw popełnionych podczas ludobójstwa w Kambodży.
+
+4. If we do not take action now, another genocide could occur in the future.
+4-pl. Jeśli nie podejmiemy teraz działań, w przyszłości może mieć miejsce kolejne ludobójstwo.
+
+5. There is no excuse for turning a blind eye to genocide happening in our world today.
+5-pl. Nie ma usprawiedliwienia dla odwracania wzroku od ludobójstwa mającego miejsce współcześnie w naszym świecie.
+
+Prompt: freedom
+Response: 1. Freedom is essential for a fulfilling life.
+1-pl. Wolność jest niezbędna dla pełnego życia.
+
+2. Will you fight for your freedom if it's threatened?
+2-pl. Czy będziesz walczył o swoją wolność, jeśli będzie zagrożona?
+
+3. We are not willing to relinquish our freedom for anyone.
+3-pl. Nie jesteśmy skłonni zrezygnować z naszej wolności dla nikogo.
+
+4. Our future plans include traveling all over the world to experience different cultures and embrace the freedom of exploration.
+4-pl. Nasze przyszłe plany obejmują podróżowanie po całym świecie, aby doświadczyć różnych kultur i przyjąć wolność eksploracji.
+
+5. Without freedom, we cannot truly be ourselves and reach our full potential.
+5-pl. Bez wolności nie możemy naprawdę być sobą i osiągnąć nasz pełny potencjał.
+

@@ -2,6 +2,7 @@ import express from "express";
 import { addPhrase } from "../controllers/addPhrase.js";
 import { getPhrases } from "../controllers/getPhrase.js";
 import { updatePhraseProgress } from "../controllers/updatePhraseProgress.js";
+import { generatePhrase } from "../controllers/generatePhrase.js";
 import { body, param } from "express-validator";
 
 const router = express.Router();
@@ -33,5 +34,11 @@ router.post(
 );
 
 router.get("/getPhrase/:userId", [param("userId").isInt()], getPhrases);
+
+router.post(
+  "/generatePhrase",
+  [body("word").isString().trim().notEmpty()],
+  generatePhrase
+);
 
 export default router;
