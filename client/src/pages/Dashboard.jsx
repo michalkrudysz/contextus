@@ -4,6 +4,7 @@ import HeaderDashboard from "../components/HeaderDashboard";
 import Footer from "../components/Footer";
 import StartModule from "../components/StartModule";
 import { apiRequest } from "../services/api";
+import classes from "./styles/Dashboard.module.scss";
 
 export default function Dashboard() {
   const { firstname, token, userId } = useSelector((state) => state.auth);
@@ -52,7 +53,7 @@ export default function Dashboard() {
   }, [userId, token]);
 
   return (
-    <main className="dashboard">
+    <main className={classes.dashboard}>
       <HeaderDashboard />
       {loading ? (
         <p>Ładowanie...</p>
