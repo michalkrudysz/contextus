@@ -1,12 +1,6 @@
 import connectRabbitMQ from "../config/amqpConfig.js";
 import gptConfig from "../config/gptConfig.js";
 import OpenAI from "openai";
-import fs from "fs";
-import path from "path";
-import { fileURLToPath, dirname } from "url";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
 
 const openai = new OpenAI({
   apiKey: gptConfig.apiKey,
@@ -17,7 +11,7 @@ async function startWorker() {
     const { channel } = await connectRabbitMQ();
     setupConsumer(channel);
   } catch (error) {
-    console.error("Błąd:", error);
+    console.error(`Error initializing worker: ${error}`);
   }
 }
 
@@ -48,21 +42,19 @@ async function messageHandler(msg, channel) {
         frequency_penalty: gptConfig.frequencyPenalty,
         presence_penalty: gptConfig.presencePenalty,
       });
-
-      const outputPath = path.join(__dirname, "output.txt");
-      fs.appendFileSync(
-        outputPath,
-        `Prompt: ${prompt}\nResponse: ${response.choices[0].message.content}\n\n`
+      channel.sendToQueue(
+        "dataProcessingQueue",
+        Buffer.from(JSON.stringify(response.choices[0].message.content))
       );
-
       channel.ack(msg);
     } catch (error) {
-      console.error("Błąd:", error);
+      console.error(`Error processing request: ${error}`);
       channel.nack(msg);
     }
   } else {
+    console.error("Invalid message.");
     channel.nack(msg);
   }
 }
 
-export default startWorker;
+startWorker();

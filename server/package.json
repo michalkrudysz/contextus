@@ -5,11 +5,14 @@
   "type": "module",
   "main": "server.js",
   "scripts": {
-    "start": "cross-env NODE_ENV=production node server.js",
-    "dev": "cross-env NODE_ENV=development nodemon server.js",
+    "start": "cross-env NODE_ENV=production concurrently \"npm run server\" \"npm run workers\"",
+    "dev": "cross-env NODE_ENV=development concurrently \"npm run dev-server\" \"npm run workers\"",
+    "server": "node server.js",
+    "dev-server": "nodemon server.js",
     "worker:phrase": "node ./workers/phraseWorker.js",
     "worker:gpt": "node ./workers/gptWorker.js",
-    "workers": "concurrently \"npm run worker:phrase\" \"npm run worker:gpt\""
+    "worker:data": "node ./workers/dataProcessingWorker.js",
+    "workers": "concurrently \"npm run worker:phrase\" \"npm run worker:gpt\" \"npm run worker:data\""
   },
   "keywords": [],
   "author": "Michał Krudysz",

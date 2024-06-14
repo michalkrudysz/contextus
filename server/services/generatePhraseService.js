@@ -1,5 +1,9 @@
 import connectRabbitMQ from "../config/amqpConfig.js";
 
+export async function logPhraseResponse(data) {
+  console.log(`Dane z serwisu '${data.prompt}': ${data.response}`);
+}
+
 export async function enqueuePhraseGeneration(data) {
   const { channel } = await connectRabbitMQ();
   const queue = "gptQueue";
@@ -13,6 +17,7 @@ export async function enqueuePhraseGeneration(data) {
   }
 
   const messageBuffer = Buffer.from(JSON.stringify(data));
+
   try {
     channel.sendToQueue(queue, messageBuffer, { persistent: true });
     return { message: "Phrase generation request enqueued successfully" };
