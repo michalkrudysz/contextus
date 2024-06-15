@@ -51,10 +51,16 @@ async function saveDataToDatabase(data, userId) {
   try {
     await connection.beginTransaction();
     for (const item of data) {
-      await connection.query(
-        "INSERT INTO ai_generated_phrases (phrase_en, phrase_pl, user_id) VALUES (?, ?, ?)",
-        [item.EN, item.PL, userId]
-      );
+      if (item.EN.length >= 5 && item.PL.length >= 5) {
+        await connection.query(
+          "INSERT INTO ai_generated_phrases (phrase_en, phrase_pl, user_id) VALUES (?, ?, ?)",
+          [item.EN, item.PL, userId]
+        );
+      } else {
+        console.log(
+          `Odrzucono frazę: EN="${item.EN}", PL="${item.PL}" - jedna lub obie mają mniej niż 5 znaków.`
+        );
+      }
     }
     await connection.commit();
   } catch (error) {

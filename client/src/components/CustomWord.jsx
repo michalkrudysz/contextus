@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { apiRequest } from "../services/api";
 
-export default function GiveWord() {
+function GiveWord() {
   const [word, setWord] = useState("");
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -31,7 +31,6 @@ export default function GiveWord() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
     const headers = {
       Authorization: `Bearer ${token}`,
     };
@@ -87,3 +86,5 @@ export default function GiveWord() {
     </div>
   );
 }
+
+export default GiveWord;
