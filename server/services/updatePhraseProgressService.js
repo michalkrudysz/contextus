@@ -2,9 +2,13 @@ import pool from "../config/dbConfig.js";
 import connectRabbitMQ from "../config/amqpConfig.js";
 
 export async function updatePhraseProgress(data) {
+  const formattedDate = new Date(data.lastReviewDate)
+    .toISOString()
+    .slice(0, 19)
+    .replace("T", " ");
   const query = `UPDATE user_phrases SET last_review_date = ?, level = ?, repetitions = ?, review_interval = ? WHERE id = ?`;
   const params = [
-    data.lastReviewDate,
+    formattedDate,
     data.level,
     data.repetitions,
     data.reviewInterval,
