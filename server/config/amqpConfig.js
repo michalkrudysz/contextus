@@ -16,7 +16,7 @@ async function connectRabbitMQ() {
     return { connection, channel };
   } catch (error) {
     console.error("Błąd podczas łączenia lub konfiguracji RabbitMQ:", error);
-    throw error; // Rzuć błąd dalej, aby można było go obsłużyć wyżej w stosie wywołań.
+    throw error;
   }
 }
 

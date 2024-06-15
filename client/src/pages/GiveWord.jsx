@@ -1,6 +1,9 @@
 import { useState } from "react";
 import CustomWord from "../components/CustomWord";
-import ChooseWord from "../components/ChooseWord"; // Ensure this component is correctly imported
+import ChooseWord from "../components/ChooseWord";
+import HeaderDashboard from "../components/HeaderDashboard";
+import Footer from "../components/Footer";
+import classes from "./styles/GiveWord.module.scss";
 
 export default function GiveWord() {
   const [isSubmittedSuccessfully, setIsSubmittedSuccessfully] = useState(false);
@@ -10,12 +13,16 @@ export default function GiveWord() {
   };
 
   return (
-    <div>
-      {!isSubmittedSuccessfully ? (
-        <CustomWord onSuccessfulSubmission={handleSuccessfulSubmission} />
-      ) : (
-        <ChooseWord />
-      )}
-    </div>
+    <>
+      <main className={classes.main}>
+        <HeaderDashboard />
+        {!isSubmittedSuccessfully ? (
+          <CustomWord onSuccessfulSubmission={handleSuccessfulSubmission} />
+        ) : (
+          <ChooseWord />
+        )}
+        <Footer />
+      </main>
+    </>
   );
 }

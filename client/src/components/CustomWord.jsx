@@ -1,7 +1,7 @@
-// components/CustomWord.js
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { apiRequest } from "../services/api";
+import classes from "./styles/CustomWord.module.scss";
 
 export default function CustomWord({ onSuccessfulSubmission }) {
   const [word, setWord] = useState("");
@@ -30,7 +30,7 @@ export default function CustomWord({ onSuccessfulSubmission }) {
       );
       setResponse(serverResponse);
       if (serverResponse.success) {
-        onSuccessfulSubmission(); // Trigger the callback if the submission is successful
+        onSuccessfulSubmission();
       }
     } catch (error) {
       setResponse(`Error: ${error.message}`);
@@ -38,16 +38,16 @@ export default function CustomWord({ onSuccessfulSubmission }) {
   };
 
   return (
-    <div>
-      <h1>Give Word</h1>
+    <div className={classes.content}>
+      <h1>Wpisz słowo, a my stworzymy za Ciebie zdania z jego użyciem!</h1>
       <form onSubmit={handleSubmit}>
         <input
           type="text"
           value={word}
           onChange={(e) => setWord(e.target.value)}
-          placeholder="Enter a word"
+          placeholder="Wpisz słowo..."
         />
-        <button type="submit">Submit</button>
+        <button type="submit">Generuj</button>
       </form>
       {response && <p>{JSON.stringify(response)}</p>}
     </div>
