@@ -55,3 +55,30 @@
     }
   }
 }
+
+@media (max-width: 1520px) {
+  .home {
+    .main-container {
+      .left-side {
+        .content {
+          .title {
+            h1 {
+              font-size: 1.3em;
+            }
+            h2 {
+              width: 79%;
+              margin-top: 0.3em;
+              font-size: 3.4em;
+            }
+          }
+
+          .description {
+            margin-top: 0.9em;
+            margin-bottom: 3em;
+            font-size: 1em;
+          }
+        }
+      }
+    }
+  }
+}

@@ -41,3 +41,13 @@
   letter-spacing: 0.09em;
   text-align: center;
 }
+
+@media (max-width: 1520px) {
+  .container {
+    padding: 2.3em 3.5em;
+  }
+
+  .title {
+    font-size: 1.7em;
+  }
+}

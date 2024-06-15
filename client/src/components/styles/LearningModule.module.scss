@@ -299,3 +299,19 @@
     }
   }
 }
+
+@media (max-width: 1520px) {
+  .content {
+    padding: 10em 10em;
+  }
+
+  .input {
+    width: 40em;
+  }
+
+  .buttons {
+    .button {
+      width: 9em;
+    }
+  }
+}

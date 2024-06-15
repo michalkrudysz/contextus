@@ -33,3 +33,15 @@
     letter-spacing: 0.15em;
   }
 }
+
+@media (max-width: 1520px) {
+  .main-container {
+    width: 88vw;
+    .logo-container {
+      width: 22%;
+    }
+    .content {
+      font-size: 0.95em;
+    }
+  }
+}

@@ -163,3 +163,79 @@
     }
   }
 }
+
+@media (max-width: 1520px) {
+  .main-container {
+    .content {
+      padding-bottom: 6em;
+
+      .button {
+        width: 13em;
+        height: 2.2em;
+        margin-top: 0.5em;
+        line-height: 2.2em;
+        font-size: 1em;
+        font-weight: 400;
+        letter-spacing: 0.1em;
+        text-align: center;
+      }
+
+      .left {
+        display: flex;
+        flex-direction: column;
+        width: 50%;
+        padding-left: 6em;
+        padding-right: 3em;
+        border-right: 0.2em solid #f26b5e;
+        border-radius: 30px 0 0 30px;
+
+        h1 {
+          font-size: 3.4em;
+
+          span {
+            font-size: 1.1em;
+          }
+        }
+
+        h2 {
+          font-size: 2.2em;
+
+          span {
+            font-size: 0.65em;
+          }
+        }
+
+        .buttons {
+          .button {
+            background-color: #f26b5e;
+            -webkit-box-shadow: 1px 1px 19px -9px rgba(242, 107, 94, 1);
+            -moz-box-shadow: 1px 1px 19px -9px rgba(242, 107, 94, 1);
+            box-shadow: 1px 1px 19px -9px rgba(242, 107, 94, 1);
+
+            &:hover {
+              background-color: #fd6557;
+              -webkit-box-shadow: 1px 1px 34px -9px rgba(253, 101, 87, 1);
+              -moz-box-shadow: 1px 1px 34px -9px rgba(253, 101, 87, 1);
+              box-shadow: 1px 1px 34px -9px rgba(253, 101, 87, 1);
+            }
+          }
+        }
+      }
+
+      .right {
+        width: 50%;
+        padding-left: 3em;
+        padding-right: 2em;
+
+        h1 {
+          font-size: 2.5em;
+          padding-top: 1em;
+        }
+
+        h2 {
+          font-size: 1.5em;
+        }
+      }
+    }
+  }
+}
