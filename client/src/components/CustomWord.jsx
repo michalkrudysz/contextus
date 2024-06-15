@@ -1,60 +1,39 @@
-import { useState, useEffect } from "react";
+// components/CustomWord.js
+import { useState } from "react";
 import { useSelector } from "react-redux";
 import { apiRequest } from "../services/api";
 
-function GiveWord() {
+export default function CustomWord({ onSuccessfulSubmission }) {
   const [word, setWord] = useState("");
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [response, setResponse] = useState("");
   const token = useSelector((state) => state.auth.token);
   const userId = useSelector((state) => state.auth.userId);
 
-  useEffect(() => {
-    const socket = new WebSocket("ws://localhost:8080");
-
-    socket.onopen = () => {
-      setLoading(true); // Start loading when connection opens
-    };
-
-    socket.onmessage = (event) => {
-      setData(JSON.parse(event.data));
-      setLoading(false); // Stop loading when data is received
-    };
-
-    socket.onerror = (error) => {
-      console.error("WebSocket Error:", error);
-      setLoading(false); // Stop loading on error
-    };
-
-    return () => socket.close();
-  }, []);
-
   const handleSubmit = async (event) => {
     event.preventDefault();
+
     const headers = {
       Authorization: `Bearer ${token}`,
     };
 
     const body = {
-      userId: userId,
       word: word,
+      userId: userId,
     };
 
-    setLoading(true); // Start loading when the request is made
     try {
-      const response = await apiRequest(
+      const serverResponse = await apiRequest(
         "/dashboard/generatePhrase",
         "POST",
         body,
         headers
       );
-      console.log("Response:", response);
-      alert("Phrase generated successfully!");
-      setLoading(false); // Stop loading after the request
+      setResponse(serverResponse);
+      if (serverResponse.success) {
+        onSuccessfulSubmission(); // Trigger the callback if the submission is successful
+      }
     } catch (error) {
-      console.error("Error:", error);
-      alert("Failed to generate phrase: " + error.message);
-      setLoading(false); // Stop loading on error
+      setResponse(`Error: ${error.message}`);
     }
   };
 
@@ -70,21 +49,7 @@ function GiveWord() {
         />
         <button type="submit">Submit</button>
       </form>
-      {loading ? (
-        <p>Loading...</p>
-      ) : (
-        <div>
-          {data.map((item, index) => (
-            <div key={index}>
-              <p>
-                {item.EN} - {item.PL}
-              </p>
-            </div>
-          ))}
-        </div>
-      )}
+      {response && <p>{JSON.stringify(response)}</p>}
     </div>
   );
 }
-
-export default GiveWord;
