@@ -9,6 +9,7 @@ const openai = new OpenAI({
 async function startWorker() {
   try {
     const { channel } = await connectRabbitMQ();
+    console.log("RabbitMQ connected successfully.");
     setupConsumer(channel);
   } catch (error) {
     console.error(`Error initializing worker: ${error}`);
@@ -18,6 +19,7 @@ async function startWorker() {
 function setupConsumer(channel) {
   const queue = "gptQueue";
   channel.assertQueue(queue, { durable: true });
+  console.log(`Queue ${queue} asserted as durable.`);
   channel.consume(queue, (msg) => messageHandler(msg, channel), {
     noAck: false,
   });
@@ -25,9 +27,13 @@ function setupConsumer(channel) {
 
 async function messageHandler(msg, channel) {
   if (msg && msg.content) {
+    console.log("Message received:", msg.content.toString());
     const data = JSON.parse(msg.content.toString());
     const prompt = data.word;
-    const userId = data.userId; // Zapisz userId z przychodzącej wiadomości
+    const userId = data.userId;
+    console.log(
+      `Processing request for userId: ${userId} with prompt: ${prompt}`
+    );
     try {
       const response = await openai.chat.completions.create({
         model: gptConfig.model,
@@ -45,10 +51,14 @@ async function messageHandler(msg, channel) {
       });
 
       const payload = {
-        message: response.choices[0].message.content, // Załóżmy, że to jest treść odpowiedzi
-        userId: userId, // Dodaj userId do payloadu
+        message: response.choices[0].message.content,
+        userId: userId,
       };
 
+      console.log(
+        `Response generated and being sent to dataProcessingQueue:`,
+        payload
+      );
       channel.sendToQueue(
         "dataProcessingQueue",
         Buffer.from(JSON.stringify(payload)),
@@ -60,7 +70,7 @@ async function messageHandler(msg, channel) {
       channel.nack(msg);
     }
   } else {
-    console.error("Invalid message.");
+    console.error("Invalid message received, message is null or undefined.");
     channel.nack(msg);
   }
 }

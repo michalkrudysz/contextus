@@ -93,11 +93,11 @@ export default function ChooseWord() {
           {error && <p className="error">{error}</p>}
           <div className={classes.phrases}>
             <p>
-              <span> Po angielsku: </span>
+              <span>Po angielsku: </span>
               {data[currentIndex].phrase_en}
             </p>
             <p>
-              <span>Po polsku:</span>
+              <span>Po polsku: </span>
               {data[currentIndex].phrase_pl}
             </p>
           </div>

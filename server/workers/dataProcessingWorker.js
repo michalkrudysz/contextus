@@ -7,6 +7,7 @@ async function startWorker() {
     const { channel } = await connectRabbitMQ();
     const sessionId = uuidv4();
     console.log(`Session ID generated: ${sessionId}`);
+    console.log("RabbitMQ connected successfully.");
     setupConsumer(channel, sessionId);
   } catch (error) {
     console.error(`Error initializing worker: ${error}`);
@@ -16,6 +17,7 @@ async function startWorker() {
 function setupConsumer(channel, sessionId) {
   const queue = "dataProcessingQueue";
   channel.assertQueue(queue, { durable: true });
+  console.log(`Queue ${queue} asserted as durable.`);
   channel.consume(queue, (msg) => messageHandler(msg, channel, sessionId), {
     noAck: true,
   });
@@ -45,6 +47,10 @@ async function messageHandler(msg, channel, sessionId) {
       pairedData.push({ EN: enText, PL: plText });
     }
 
+    console.log(
+      `Data parsed and processed, preparing to save to database. Data:`,
+      pairedData
+    );
     await saveDataToDatabase(pairedData, data.userId, sessionId);
   }
 }
@@ -53,8 +59,12 @@ async function saveDataToDatabase(data, userId, sessionId) {
   const connection = await pool.getConnection();
   try {
     await connection.beginTransaction();
+    console.log(
+      `Transaction started for User ID: ${userId} and Session ID: ${sessionId}`
+    );
     for (const item of data) {
       if (item.EN.length >= 5 && item.PL.length >= 5) {
+        console.log(`Inserting phrase: EN="${item.EN}", PL="${item.PL}"`);
         await connection.query(
           "INSERT INTO ai_generated_phrases (phrase_en, phrase_pl, user_id, session_id) VALUES (?, ?, ?, ?)",
           [item.EN, item.PL, userId, sessionId]
@@ -66,9 +76,11 @@ async function saveDataToDatabase(data, userId, sessionId) {
       }
     }
     await connection.commit();
+    console.log("Transaction committed successfully.");
   } catch (error) {
     console.error("Failed to save data to the database:", error);
     await connection.rollback();
+    console.log("Transaction rolled back due to error.");
   } finally {
     connection.release();
   }
