@@ -1,17 +1,29 @@
 import pool from "../config/dbConfig.js";
 
 export async function checkIfPhraseIsGenerated(userId) {
-  const currentTime = new Date();
-  const pastTime = new Date(currentTime.getTime() - 60 * 60000);
-  const query = `
-    SELECT * FROM ai_generated_phrases 
-    WHERE user_id = ? AND generation_date > ?
-    ORDER BY generation_date DESC
-    LIMIT 5;
-  `;
+  const querySelect = `
+        SELECT * 
+        FROM ai_generated_phrases 
+        WHERE user_id = ? AND is_retrieved = 0 
+        ORDER BY generation_date DESC 
+        LIMIT 5;
+    `;
+
+  const queryUpdate = `
+        UPDATE ai_generated_phrases 
+        SET is_retrieved = 1 
+        WHERE id IN (?);
+    `;
+
   try {
-    const [rows] = await pool.query(query, [userId, pastTime]);
-    return rows.length > 0 ? rows : null;
+    const [rows] = await pool.query(querySelect, [userId]);
+    if (rows.length > 0) {
+      const idsToUpdate = rows.map((row) => row.id);
+      await pool.query(queryUpdate, [idsToUpdate]);
+      return rows;
+    } else {
+      return null;
+    }
   } catch (error) {
     console.error("Database query error:", error);
     return null;
