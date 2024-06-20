@@ -5,8 +5,7 @@ export async function checkIfPhraseIsGenerated(userId) {
         SELECT * 
         FROM ai_generated_phrases 
         WHERE user_id = ? AND is_retrieved = 0 
-        ORDER BY generation_date DESC 
-        LIMIT 5;
+        ORDER BY generation_date DESC;
     `;
 
   const queryUpdate = `

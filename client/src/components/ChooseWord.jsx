@@ -87,7 +87,7 @@ export default function ChooseWord() {
     <div className={classes.main}>
       <h1>Przygotowana fraza</h1>
       {loading ? (
-        <p>Loading...</p>
+        <p>Przygotowujemy dla Ciebie frazy...</p>
       ) : data.length > 0 ? (
         <>
           {error && <p className="error">{error}</p>}

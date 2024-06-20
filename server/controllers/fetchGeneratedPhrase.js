@@ -4,8 +4,8 @@ export async function fetchGeneratedPhrase(req, res) {
   const userId = req.params.userId;
   try {
     let attempts = 0;
-    const maxAttempts = 10;
-    const interval = 2000;
+    const maxAttempts = 1000;
+    const interval = 3000;
 
     const checkPhrases = async () => {
       let phrases = await checkIfPhraseIsGenerated(userId);
