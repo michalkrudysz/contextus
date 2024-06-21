@@ -16,7 +16,21 @@ export const fetchGeneratedPhrase = async (
 
     if (response.success) {
       setData(response.data);
-      console.log("Received data:", response.data);
+      if (response.data && response.data.length > 0) {
+        response.data.forEach(async (item) => {
+          if (item.session_id) {
+            const patchEndpoint = "/dashboard/updateRetrieved";
+            const patchBody = { session_id: item.session_id };
+            const patchHeaders = { Authorization: `Bearer ${token}` };
+            try {
+              await apiRequest(patchEndpoint, "PATCH", patchBody, patchHeaders);
+            } catch (patchError) {
+              console.error("Failed to send update:", patchError.message);
+            }
+          }
+        });
+      }
+
       setDataFetched(true);
     }
   } catch (error) {
