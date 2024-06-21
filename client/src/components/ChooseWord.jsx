@@ -5,7 +5,7 @@ import classes from "./styles/ChooseWord.module.scss";
 import { fetchGeneratedPhrase, savePhrase } from "../utils/phraseUtils";
 
 export default function ChooseWord() {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [data, setData] = useState([]);
   const [dataFetched, setDataFetched] = useState(false);
@@ -51,31 +51,35 @@ export default function ChooseWord() {
 
   return (
     <div className={classes.main}>
-      <h1>Przygotowana fraza</h1>
-      {loading ? (
-        <p>Przygotowujemy dla Ciebie frazy...</p>
-      ) : data.length > 0 ? (
-        <>
-          {error && <p className="error">{error}</p>}
-          <div className={classes.phrases}>
-            <p>
-              <span>Po angielsku: </span>
-              {data[currentIndex].phrase_en}
-            </p>
-            <p>
-              <span>Po polsku: </span>
-              {data[currentIndex].phrase_pl}
-            </p>
-          </div>
-          {success && <p className={classes.success}>{success}</p>}
-          <div className={classes.buttons}>
-            <button onClick={handleNext}>Kolejny zwrot</button>
-            <button onClick={save}>Zapisz zwrot</button>
-          </div>
-        </>
-      ) : (
-        <p>No data</p>
-      )}
+      <h1>{loading ? "Trwa tworzenie fraz" : "Przygotowana fraza"}</h1>
+      <div className={classes.container}>
+        {loading ? (
+          <p className={classes["loading-text"]}>
+            Przygotowujemy dla Ciebie frazy...
+          </p>
+        ) : data.length > 0 ? (
+          <>
+            {error && <p className="error">{error}</p>}
+            <div className={classes.phrases}>
+              <p>
+                <span>Po angielsku: </span>
+                {data[currentIndex].phrase_en}
+              </p>
+              <p>
+                <span>Po polsku: </span>
+                {data[currentIndex].phrase_pl}
+              </p>
+            </div>
+            <div className={classes.buttons}>
+              <button onClick={handleNext}>Kolejny zwrot</button>
+              <button onClick={save}>Zapisz zwrot</button>
+            </div>
+            {success && <p className={classes.success}>{success}</p>}
+          </>
+        ) : (
+          <p>Brak danych</p>
+        )}
+      </div>
     </div>
   );
 }

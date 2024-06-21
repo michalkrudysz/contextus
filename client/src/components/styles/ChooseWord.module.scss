@@ -2,10 +2,11 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
-  width: 50em;
-  height: 30em;
-  margin-top: 5em;
+  align-items: start;
+  position: relative;
+  width: 55em;
+  height: 35em;
+  margin-top: 4em;
   padding: 0.1em 0.1em;
   background-color: #fdf6d46e;
   border-radius: 10px;
@@ -14,59 +15,84 @@
   box-shadow: 0px 0px 25px -10px rgba(66, 68, 90, 1);
 
   h1 {
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
     margin-bottom: 0.5em;
     font-weight: 500;
     letter-spacing: 0.03em;
   }
 
-  .phrases {
-    display: flex;
+  .container {
+    position: relative;
     flex-direction: column;
     justify-content: center;
-    width: 95%;
-    font-size: 1.2em;
 
-    p {
-      margin-top: 0.5em;
+    .loading-text {
+      position: relative;
+      left: 128%;
+      animation: scale-animation 1s infinite;
     }
 
-    span {
-      margin-right: 0.2em;
-      font-weight: 500;
-    }
-  }
+    .phrases {
+      width: 100%;
+      padding-left: 3em;
+      font-size: 1.2em;
 
-  .buttons {
-    display: flex;
+      p {
+        margin-top: 0.8em;
+      }
 
-    button {
-      all: unset;
-      width: 10em;
-      height: 2em;
-      margin-left: 0.25em;
-      margin-right: 0.25em;
-      margin-top: 1em;
-      padding: 0.5em 0.8em;
-      text-align: center;
-      color: #f2edd5;
-      background-color: #4988bf;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: background 0.3s ease-in-out;
-
-      &:hover {
-        background-color: #2d9bfc;
+      span {
+        margin-right: 0.2em;
+        font-weight: 500;
       }
     }
-  }
 
-  .success {
-    width: 20em;
-    margin-top: 0.5em;
-    padding: 0.7em 1em;
-    text-align: center;
-    color: whitesmoke;
-    background-color: #83c724;
-    border-radius: 5px;
+    .buttons {
+      display: flex;
+      justify-content: flex-start;
+      padding-left: 3em;
+
+      button {
+        all: unset;
+        width: 9em;
+        height: 1.8em;
+        margin-left: 0.25em;
+        margin-right: 0.25em;
+        margin-top: 1.2em;
+        padding: 0.5em 0.8em;
+        text-align: center;
+        color: #f2edd5;
+        background-color: #4988bf;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background 0.3s ease-in-out;
+
+        &:hover {
+          background-color: #2d9bfc;
+        }
+      }
+    }
+
+    .success {
+      margin-left: 3.3em;
+      width: 18em;
+      margin-top: 0.5em;
+      padding: 0.5em 1em;
+      text-align: center;
+      color: whitesmoke;
+      background-color: #83c724;
+      border-radius: 5px;
+    }
+  }
+}
+
+@keyframes scale-animation {
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.02);
   }
 }
