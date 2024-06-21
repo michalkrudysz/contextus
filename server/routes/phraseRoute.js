@@ -5,6 +5,8 @@ import { updatePhraseProgress } from "../controllers/updatePhraseProgress.js";
 import { generatePhrase } from "../controllers/generatePhrase.js";
 import { body, param } from "express-validator";
 import { fetchGeneratedPhrase } from "../controllers/fetchGeneratedPhrase.js";
+import { updateRetrieved } from "../controllers/updateRetrieved.js";
+
 const router = express.Router();
 
 router.put(
@@ -41,6 +43,12 @@ router.post(
   "/generatePhrase",
   [body("word").isString().trim().notEmpty(), body("userId").isInt()],
   generatePhrase
+);
+
+router.patch(
+  "/updateRetrieved",
+  [body("session_id").isString()],
+  updateRetrieved
 );
 
 export default router;

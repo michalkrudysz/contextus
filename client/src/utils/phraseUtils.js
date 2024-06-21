@@ -16,6 +16,7 @@ export const fetchGeneratedPhrase = async (
 
     if (response.success) {
       setData(response.data);
+      console.log("Received data:", response.data);
       setDataFetched(true);
     }
   } catch (error) {
