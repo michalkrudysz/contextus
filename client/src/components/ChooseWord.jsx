@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { apiRequest } from "../services/api";
 import classes from "./styles/ChooseWord.module.scss";
+import { fetchGeneratedPhrase, savePhrase } from "../utils/phraseUtils";
 
 export default function ChooseWord() {
   const [loading, setLoading] = useState(false);
@@ -13,32 +13,20 @@ export default function ChooseWord() {
   const [success, setSuccess] = useState("");
 
   const navigate = useNavigate();
-
   const userId = useSelector((state) => state.auth.userId);
   const token = useSelector((state) => state.auth.token);
 
   useEffect(() => {
-    const fetchGeneratedPhrase = async () => {
-      if (dataFetched) return;
-
-      try {
-        setLoading(true);
-        const endpoint = `/dashboard/fetchGeneratedPhrase/${userId}`;
-        const headers = { Authorization: `Bearer ${token}` };
-        const response = await apiRequest(endpoint, "GET", null, headers);
-
-        if (response.success) {
-          setData(response.data);
-          setDataFetched(true);
-        }
-      } catch (error) {
-        console.error("Failed to fetch phrase:", error.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchGeneratedPhrase();
+    if (!dataFetched) {
+      fetchGeneratedPhrase(
+        userId,
+        token,
+        setData,
+        setDataFetched,
+        setError,
+        setLoading
+      );
+    }
   }, [userId, token, dataFetched]);
 
   const handleNext = () => {
@@ -50,37 +38,15 @@ export default function ChooseWord() {
   };
 
   const save = async () => {
-    const body = {
-      user_id: userId,
-      phrase: data[currentIndex].phrase_en,
-      translation: data[currentIndex].phrase_pl,
-      level: 1,
-      source: "manual",
-      last_review_date: new Date().toISOString(),
-      review_interval: 1,
-    };
-
-    const headers = { Authorization: `Bearer ${token}` };
-
-    try {
-      const response = await apiRequest(
-        "/dashboard/addPhrase",
-        "POST",
-        body,
-        headers
-      );
-      if (!response.success) {
-        setError(response.message);
-      } else {
-        setSuccess("Zwrot został pomyślnie dodany");
-        setTimeout(() => {
-          setSuccess("");
-          handleNext();
-        }, 500);
-      }
-    } catch (err) {
-      setError("Error saving phrase: " + err.message);
-    }
+    savePhrase(
+      userId,
+      token,
+      data,
+      currentIndex,
+      setSuccess,
+      setError,
+      handleNext
+    );
   };
 
   return (
