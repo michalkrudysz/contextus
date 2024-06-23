@@ -22,6 +22,7 @@ export default function LearningModule() {
     handleFormSubmit,
     handleNextPhrase,
     togglePhrase,
+    handleKeyPress,
   } = usePhraseLogic(reviewPhrases);
 
   const level = currentPhrase.level || null;
@@ -87,6 +88,7 @@ export default function LearningModule() {
               placeholder="Wprowadź tłumaczenie na angielski"
               value={translation}
               onChange={(e) => setTranslation(e.target.value)}
+              onKeyDown={handleKeyPress}
             />
             {answerResult !== null && (
               <div className={classes.info}>

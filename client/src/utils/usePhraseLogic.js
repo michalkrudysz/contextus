@@ -31,6 +31,17 @@ export function usePhraseLogic(reviewPhrases) {
       .replace(/[?.!]+$/, "");
   };
 
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      if (buttonContent === "Dalej") {
+        handleNextPhrase();
+      } else {
+        handleFormSubmit(event);
+      }
+    }
+  };
+
   const handleFormSubmit = (event) => {
     event.preventDefault();
     if (normalizeText(translation) === normalizeText(currentPhrase.phrase)) {
@@ -117,5 +128,6 @@ export function usePhraseLogic(reviewPhrases) {
     handleFormSubmit,
     handleNextPhrase,
     togglePhrase,
+    handleKeyPress,
   };
 }
