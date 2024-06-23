@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { apiRequest } from "../services/api";
 import classes from "./styles/CustomWord.module.scss";
 
@@ -8,6 +9,7 @@ export default function CustomWord({ onSuccessfulSubmission }) {
   const [response, setResponse] = useState("");
   const token = useSelector((state) => state.auth.token);
   const userId = useSelector((state) => state.auth.userId);
+  const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -37,9 +39,18 @@ export default function CustomWord({ onSuccessfulSubmission }) {
         body,
         headers
       );
-      setResponse(serverResponse);
-      if (serverResponse.success) {
+      if (
+        serverResponse.data.message ===
+        "Przy darmowym planie możesz korzystać z funkcji generowania zwrotów przez SI maksymalnie dwa razy na dobę."
+      ) {
+        setResponse(serverResponse.data.message);
+        setTimeout(() => {
+          navigate("/dashboard");
+        }, 3000);
+      } else if (serverResponse.success) {
         onSuccessfulSubmission();
+      } else {
+        setResponse(serverResponse.data.message);
       }
     } catch (error) {
       setResponse(`Error: ${error.message}`);
