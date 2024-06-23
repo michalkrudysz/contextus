@@ -27,6 +27,7 @@
     "express": "^4.19.2",
     "express-validator": "^7.1.0",
     "fs": "^0.0.1-security",
+    "fs-extra": "^11.2.0",
     "joi": "^17.13.1",
     "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.9.8",

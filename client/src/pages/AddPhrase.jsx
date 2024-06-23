@@ -12,6 +12,7 @@ export default function AddPhrase() {
   const [phrasePolish, setPhrasePolish] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const navigate = useNavigate();
 
@@ -21,9 +22,9 @@ export default function AddPhrase() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setIsSubmitting(true);
     if (phraseEnglish.length >= 2 && phrasePolish.length >= 2) {
       const currentDate = new Date().toISOString().split("T")[0];
-
       const body = {
         user_id: userId,
         phrase: phraseEnglish,
@@ -33,7 +34,6 @@ export default function AddPhrase() {
         last_review_date: currentDate,
         review_interval: 1,
       };
-
       const headers = {
         Authorization: `Bearer ${token}`,
       };
@@ -47,6 +47,7 @@ export default function AddPhrase() {
         );
         if (!response.success) {
           setError(response.message);
+          setIsSubmitting(false);
         } else {
           setSuccess("Zwrot został pomyślnie dodany");
           setTimeout(() => {
@@ -55,6 +56,7 @@ export default function AddPhrase() {
         }
       } catch (error) {
         setError(error.message);
+        setIsSubmitting(false);
       }
     } else {
       if (phraseEnglish.length < 2 && phrasePolish.length < 2) {
@@ -68,6 +70,7 @@ export default function AddPhrase() {
           "Tłumaczenie na język polski musi zawierać co najmniej dwa znaki"
         );
       }
+      setIsSubmitting(false);
     }
   };
 
@@ -110,7 +113,11 @@ export default function AddPhrase() {
               <Link to=".." className={classes.button}>
                 Wróć
               </Link>
-              <button className={classes.button} type="submit">
+              <button
+                className={classes.button}
+                type="submit"
+                disabled={isSubmitting}
+              >
                 Zapisz
               </button>
             </div>
