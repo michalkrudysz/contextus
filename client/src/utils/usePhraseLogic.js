@@ -23,12 +23,17 @@ export function usePhraseLogic(reviewPhrases) {
     }
   }, [reviewPhrases]);
 
+  const normalizeText = (text) => {
+    return text
+      .toLowerCase()
+      .replace(/[^a-z0-9ąćęłńóśźż?.!\s]/gi, "")
+      .trim()
+      .replace(/[?.!]+$/, "");
+  };
+
   const handleFormSubmit = (event) => {
     event.preventDefault();
-    if (
-      translation.toLowerCase().trim() ===
-      currentPhrase.phrase.toLowerCase().trim()
-    ) {
+    if (normalizeText(translation) === normalizeText(currentPhrase.phrase)) {
       setAnswerResult("correct");
       setButtonContent("Dalej");
     } else {
