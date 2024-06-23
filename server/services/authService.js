@@ -15,9 +15,7 @@ export const authenticateUser = async (username, password) => {
     const user = users[0];
     const validPassword = await bcrypt.compare(password, user.password);
     if (validPassword) {
-      const token = jwt.sign({ username: user.username }, jwtSecret, {
-        expiresIn: "1h",
-      });
+      const token = jwt.sign({ username: user.username }, jwtSecret);
       return {
         success: true,
         username,
@@ -73,9 +71,7 @@ export const registerUser = async (
       [firstname, username, email, hashedPassword]
     );
 
-    const token = jwt.sign({ username }, jwtSecret, {
-      expiresIn: "1h",
-    });
+    const token = jwt.sign({ username }, jwtSecret);
 
     return { success: true, username, email, token };
   } catch (error) {

@@ -12,6 +12,15 @@ export default function CustomWord({ onSuccessfulSubmission }) {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    if (word.trim() === "") {
+      setResponse("Musisz wprowadzić słowo!");
+      return;
+    }
+    if (word.length > 15) {
+      setResponse("Wprowadzone słowo nie może mieć więcej niż 15 znaków.");
+      return;
+    }
+
     const headers = {
       Authorization: `Bearer ${token}`,
     };
@@ -49,7 +58,9 @@ export default function CustomWord({ onSuccessfulSubmission }) {
         />
         <button type="submit">Generuj</button>
       </form>
-      {response && <p>{JSON.stringify(response)}</p>}
+      <div className={classes.response}>
+        {response && <p>{JSON.stringify(response).slice(1, -1)}</p>}
+      </div>
     </div>
   );
 }
