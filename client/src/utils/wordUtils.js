@@ -40,7 +40,6 @@ export async function handleSubmitWord(
       return serverResponse.data.message;
     } else if (serverResponse.success) {
       onSuccessfulSubmission();
-      return "Success";
     } else {
       return serverResponse.data.message;
     }

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { apiRequest } from "../services/api";
+import { handleSubmitWord } from "../utils/wordUtils";
 import classes from "./styles/CustomWord.module.scss";
 
 export default function CustomWord({ onSuccessfulSubmission }) {
@@ -11,57 +11,22 @@ export default function CustomWord({ onSuccessfulSubmission }) {
   const userId = useSelector((state) => state.auth.userId);
   const navigate = useNavigate();
 
-  const handleSubmit = async (event) => {
+  const handleSubmission = async (event) => {
     event.preventDefault();
-
-    if (word.trim() === "") {
-      setResponse("Musisz wprowadzić słowo!");
-      return;
-    }
-    if (word.length > 15) {
-      setResponse("Wprowadzone słowo nie może mieć więcej niż 15 znaków.");
-      return;
-    }
-
-    const headers = {
-      Authorization: `Bearer ${token}`,
-    };
-
-    const body = {
-      word: word,
-      userId: userId,
-    };
-
-    try {
-      const serverResponse = await apiRequest(
-        "/dashboard/generatePhrase",
-        "POST",
-        body,
-        headers
-      );
-      console.log(serverResponse.data.message);
-      if (
-        serverResponse.data.message ===
-        "Przy darmowym planie możesz korzystać z funkcji generowania zwrotów przez SI maksymalnie dwa razy na dobę."
-      ) {
-        setResponse(serverResponse.data.message);
-        setTimeout(() => {
-          navigate("/dashboard");
-        }, 3000);
-      } else if (serverResponse.success) {
-        onSuccessfulSubmission();
-      } else {
-        setResponse(serverResponse.data.message);
-      }
-    } catch (error) {
-      setResponse(`Error: ${error.message}`);
-    }
+    const result = await handleSubmitWord(
+      word,
+      token,
+      userId,
+      navigate,
+      onSuccessfulSubmission
+    );
+    setResponse(result);
   };
 
   return (
     <div className={classes.content}>
       <h1>Wpisz słowo, a my stworzymy za Ciebie zdania z jego użyciem!</h1>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmission}>
         <input
           type="text"
           value={word}

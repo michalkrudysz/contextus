@@ -6,7 +6,7 @@ async function startWorker() {
   try {
     const { channel } = await connectRabbitMQ();
     console.log("RabbitMQ connected successfully.");
-    setupConsumer(channel); // Usunięcie sessionId z parametrów
+    setupConsumer(channel);
   } catch (error) {
     console.error(`Error initializing worker: ${error}`);
   }
@@ -23,7 +23,7 @@ function setupConsumer(channel) {
 
 async function messageHandler(msg, channel) {
   if (msg && msg.content) {
-    const sessionId = uuidv4(); // Przenieść generowanie sessionId do funkcji obsługującej wiadomość
+    const sessionId = uuidv4();
     const dataString = msg.content.toString();
     console.log(`Received data: ${dataString}`);
 
@@ -51,7 +51,7 @@ async function messageHandler(msg, channel) {
       pairedData
     );
     await saveDataToDatabase(pairedData, data.userId, sessionId);
-    channel.ack(msg); // Acknowledge the message after successful processing
+    channel.ack(msg);
   }
 }
 
