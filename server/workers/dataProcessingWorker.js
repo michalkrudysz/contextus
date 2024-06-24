@@ -5,26 +5,25 @@ import { v4 as uuidv4 } from "uuid";
 async function startWorker() {
   try {
     const { channel } = await connectRabbitMQ();
-    const sessionId = uuidv4();
-    console.log(`Session ID generated: ${sessionId}`);
     console.log("RabbitMQ connected successfully.");
-    setupConsumer(channel, sessionId);
+    setupConsumer(channel); // Usunięcie sessionId z parametrów
   } catch (error) {
     console.error(`Error initializing worker: ${error}`);
   }
 }
 
-function setupConsumer(channel, sessionId) {
+function setupConsumer(channel) {
   const queue = "dataProcessingQueue";
   channel.assertQueue(queue, { durable: true });
   console.log(`Queue ${queue} asserted as durable.`);
-  channel.consume(queue, (msg) => messageHandler(msg, channel, sessionId), {
-    noAck: true,
+  channel.consume(queue, (msg) => messageHandler(msg, channel), {
+    noAck: false,
   });
 }
 
-async function messageHandler(msg, channel, sessionId) {
+async function messageHandler(msg, channel) {
   if (msg && msg.content) {
+    const sessionId = uuidv4(); // Przenieść generowanie sessionId do funkcji obsługującej wiadomość
     const dataString = msg.content.toString();
     console.log(`Received data: ${dataString}`);
 
@@ -52,6 +51,7 @@ async function messageHandler(msg, channel, sessionId) {
       pairedData
     );
     await saveDataToDatabase(pairedData, data.userId, sessionId);
+    channel.ack(msg); // Acknowledge the message after successful processing
   }
 }
 

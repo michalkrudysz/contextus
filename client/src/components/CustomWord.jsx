@@ -39,6 +39,7 @@ export default function CustomWord({ onSuccessfulSubmission }) {
         body,
         headers
       );
+      console.log(serverResponse.data.message);
       if (
         serverResponse.data.message ===
         "Przy darmowym planie możesz korzystać z funkcji generowania zwrotów przez SI maksymalnie dwa razy na dobę."
