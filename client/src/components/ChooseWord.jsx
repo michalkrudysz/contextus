@@ -11,6 +11,7 @@ export default function ChooseWord() {
   const [dataFetched, setDataFetched] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [isSaving, setIsSaving] = useState(false);
 
   const navigate = useNavigate();
   const userId = useSelector((state) => state.auth.userId);
@@ -30,6 +31,7 @@ export default function ChooseWord() {
   }, [userId, token, dataFetched]);
 
   const handleNext = () => {
+    setIsSaving(false);
     if (currentIndex < data.length - 1) {
       setCurrentIndex(currentIndex + 1);
     } else {
@@ -38,15 +40,11 @@ export default function ChooseWord() {
   };
 
   const save = async () => {
-    savePhrase(
-      userId,
-      token,
-      data,
-      currentIndex,
-      setSuccess,
-      setError,
-      handleNext
-    );
+    setIsSaving(true);
+    savePhrase(userId, token, data, currentIndex, setSuccess, setError, () => {
+      handleNext();
+      setIsSaving(false);
+    });
   };
 
   return (
@@ -72,7 +70,9 @@ export default function ChooseWord() {
             </div>
             <div className={classes.buttons}>
               <button onClick={handleNext}>Kolejny zwrot</button>
-              <button onClick={save}>Zapisz zwrot</button>
+              <button disabled={isSaving} onClick={save}>
+                Zapisz zwrot
+              </button>
             </div>
             {success && <p className={classes.success}>{success}</p>}
           </>

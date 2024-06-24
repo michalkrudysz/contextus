@@ -2,12 +2,13 @@ import connectRabbitMQ from "../config/amqpConfig.js";
 import pool from "../config/dbConfig.js";
 
 export async function enqueuePhraseGeneration(data) {
-  const { userId, word } = data;
+  let { userId, word } = data;
+
+  userId = Number(userId);
 
   try {
     const today = new Date().toISOString().slice(0, 10);
 
-    // Sprawdzanie czy użytkownik ma specjalne uprawnienia
     if (userId !== 1) {
       const [rows] = await pool.query(
         "SELECT COUNT(DISTINCT session_id) as sessionCount FROM ai_generated_phrases WHERE user_id = ? AND DATE(generation_date) = ?",
