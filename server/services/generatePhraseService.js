@@ -7,20 +7,23 @@ export async function enqueuePhraseGeneration(data) {
   try {
     const today = new Date().toISOString().slice(0, 10);
 
-    const [rows] = await pool.query(
-      "SELECT COUNT(DISTINCT session_id) as sessionCount FROM ai_generated_phrases WHERE user_id = ? AND DATE(generation_date) = ?",
-      [userId, today]
-    );
+    // Sprawdzanie czy użytkownik ma specjalne uprawnienia
+    if (userId !== 1) {
+      const [rows] = await pool.query(
+        "SELECT COUNT(DISTINCT session_id) as sessionCount FROM ai_generated_phrases WHERE user_id = ? AND DATE(generation_date) = ?",
+        [userId, today]
+      );
 
-    console.log(
-      `Liczba unikalnych sesji dla użytkownika ${userId} w dniu ${today}: ${rows[0].sessionCount}`
-    );
+      console.log(
+        `Liczba unikalnych sesji dla użytkownika ${userId} w dniu ${today}: ${rows[0].sessionCount}`
+      );
 
-    if (rows[0].sessionCount >= 2) {
-      return {
-        message:
-          "Przy darmowym planie możesz korzystać z funkcji generowania zwrotów przez SI maksymalnie dwa razy na dobę.",
-      };
+      if (rows[0].sessionCount >= 2) {
+        return {
+          message:
+            "Przy darmowym planie możesz korzystać z funkcji generowania zwrotów przez SI maksymalnie dwa razy na dobę.",
+        };
+      }
     }
 
     const { channel } = await connectRabbitMQ();
