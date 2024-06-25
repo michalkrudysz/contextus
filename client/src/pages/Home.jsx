@@ -2,6 +2,7 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Login from "../components/Login";
 import SignUp from "../components/SignUp";
+import CookieModal from "../modal/CookieModal"; // Import modalu o cookies
 import classes from "./styles/Home.module.scss";
 import { useState } from "react";
 
@@ -38,6 +39,7 @@ const Home = () => {
         </div>
       </div>
       <Footer />
+      <CookieModal /> {/* Tutaj dodajemy modal */}
     </div>
   );
 };
