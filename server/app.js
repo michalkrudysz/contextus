@@ -13,6 +13,7 @@ app.use(express.json());
 app.use(corsMiddleware);
 
 app.use("/home", authRoutes);
+
 app.use("/dashboard", verifyToken, phraseRoute);
 
 app.use(errorHandler);

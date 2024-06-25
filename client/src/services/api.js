@@ -19,6 +19,7 @@ export const apiRequest = async (endpoint, method, body, headers = {}) => {
     if (!response.ok) {
       const error = new Error(data.message || "Wystąpił błąd w żądaniu.");
       error.status = response.status;
+      error.data = data;
       throw error;
     }
     return {
@@ -26,8 +27,16 @@ export const apiRequest = async (endpoint, method, body, headers = {}) => {
       data: data,
     };
   } catch (error) {
-    throw new Error(
-      error.message + (error.status ? ` (Status: ${error.status})` : "")
-    );
+    console.error(`API request error: ${error.message}`, {
+      endpoint,
+      status: error.status,
+      errorData: error.data,
+    });
+    return {
+      success: false,
+      error: error.message,
+      status: error.status,
+      errorData: error.data,
+    };
   }
 };
