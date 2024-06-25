@@ -5,6 +5,7 @@ import Input from "../UI/Input";
 import Button from "../UI/Button";
 import { registerAction, loginAction } from "../features/auth/authThunks";
 import classes from "./styles/SignUp.module.scss";
+import zxcvbn from "zxcvbn";
 
 const message = "Posiadasz już konto? Zaloguj się!";
 
@@ -56,6 +57,21 @@ export default function SignUp({ toggleAuthMode }) {
       password: formData.get("password"),
       repeatPassword: formData.get("repeat-password"),
     };
+
+    const passwordStrength = zxcvbn(registerData.password);
+    if (passwordStrength.score < 1) {
+      setError("Musisz użyć silniejszego hasła.");
+      setContent(
+        <div className={classes.error}>Musisz użyć silniejszego hasła.</div>
+      );
+      return;
+    }
+
+    if (registerData.password !== registerData.repeatPassword) {
+      setError("Hasła się różnią.");
+      setContent(<div className={classes.error}>Hasła się różnią.</div>);
+      return;
+    }
 
     setError(null);
     setContent(defaultMessage);
