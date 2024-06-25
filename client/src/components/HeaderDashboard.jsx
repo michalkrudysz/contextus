@@ -10,6 +10,7 @@ export default function HeaderDashboard() {
 
   const handleLogout = () => {
     dispatch(logout());
+    navigate("/");
   };
 
   return (

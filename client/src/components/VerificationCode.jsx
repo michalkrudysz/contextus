@@ -27,7 +27,6 @@ export default function VerificationCode() {
         { username, code },
         { Authorization: `Bearer ${token}` }
       );
-      console.log("Verification response:", response);
 
       if (response.data.message === "Verification successful") {
         navigate("/dashboard");
