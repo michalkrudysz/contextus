@@ -1,13 +1,13 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { Suspense, lazy } from "react";
+import { Suspense } from "react";
 import Home from "./pages/Home";
 import Dashboard from "./pages/Dashboard";
 import ProtectedRoute from "./pages/ProtectedRoute";
 import AddPhrase from "./pages/AddPhrase";
-import StartLearning from "./pages/StartLearning";
 import GiveWord from "./pages/GiveWord";
 import VerificationCode from "./components/VerificationCode";
 import LoadingPage from "./components/LoadingPage";
+import StartLearning from "./pages/StartLearning";
 
 const router = createBrowserRouter([
   {

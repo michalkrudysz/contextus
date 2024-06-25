@@ -78,7 +78,7 @@ export default function LearningModule() {
   return (
     <div className={`${classes.content} ${levelColor}`}>
       {sessionComplete ? (
-        <div className={classes.sessionComplete}>
+        <div>
           <h2>
             Zgodnie z metodą nauki SRS, przećwiczyłeś dzisiaj wszystko. Dodaj
             nowe zwroty.
