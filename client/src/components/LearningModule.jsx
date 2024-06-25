@@ -1,16 +1,20 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import classes from "./styles/LearningModule.module.scss";
 import { useSelector } from "react-redux";
 import {
   selectReadyForReviewPhrases,
   selectPhrasesCountByLevel,
+  selectLoading,
 } from "../features/learning/learningSelectors";
 import { usePhraseLogic } from "../utils/usePhraseLogic";
 import { useEffect, useState } from "react";
+import LoadingPage from "./LoadingPage";
 
 export default function LearningModule() {
+  const isLoading = useSelector(selectLoading);
   const reviewPhrases = useSelector(selectReadyForReviewPhrases);
   const phrasesCountByLevel = useSelector(selectPhrasesCountByLevel);
+  const navigate = useNavigate();
 
   const {
     currentPhrase,
@@ -25,41 +29,55 @@ export default function LearningModule() {
     handleKeyPress,
   } = usePhraseLogic(reviewPhrases);
 
-  const level = currentPhrase.level || null;
-  const phrasesCount = phrasesCountByLevel[level] || 0;
-  const isSessionComplete = reviewPhrases.length === 0;
-
+  const level = currentPhrase ? currentPhrase.level : null;
+  const phrasesCount = level ? phrasesCountByLevel[level] || 0 : 0;
   const [levelColor, setLevelColor] = useState(null);
+  const [sessionComplete, setSessionComplete] = useState(false);
 
   useEffect(() => {
-    switch (level) {
-      case 1:
-        setLevelColor(classes.red);
-        break;
-      case 2:
-        setLevelColor(classes.orange);
-        break;
-      case 3:
-        setLevelColor(classes.yellow);
-        break;
-      case 4:
-        setLevelColor(classes.green);
-        break;
-      case 5:
-        setLevelColor(classes.blue);
-        break;
-      case 6:
-        setLevelColor(classes.silver);
-        break;
-      default:
-        setLevelColor(null);
-        break;
+    if (level) {
+      switch (level) {
+        case 1:
+          setLevelColor(classes.red);
+          break;
+        case 2:
+          setLevelColor(classes.orange);
+          break;
+        case 3:
+          setLevelColor(classes.yellow);
+          break;
+        case 4:
+          setLevelColor(classes.green);
+          break;
+        case 5:
+          setLevelColor(classes.blue);
+          break;
+        case 6:
+          setLevelColor(classes.silver);
+          break;
+        default:
+          setLevelColor(null);
+          break;
+      }
     }
   }, [level]);
 
+  useEffect(() => {
+    if (!isLoading && reviewPhrases.length === 0) {
+      setSessionComplete(true);
+      setTimeout(() => {
+        navigate(-1);
+      }, 2000);
+    }
+  }, [isLoading, reviewPhrases.length, navigate]);
+
+  if (isLoading) {
+    return <LoadingPage content="Trwa ładowanie..." />;
+  }
+
   return (
     <div className={`${classes.content} ${levelColor}`}>
-      {isSessionComplete ? (
+      {sessionComplete ? (
         <div className={classes.sessionComplete}>
           <h2>
             Zgodnie z metodą nauki SRS, przećwiczyłeś dzisiaj wszystko. Dodaj
