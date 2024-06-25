@@ -1,3 +1,4 @@
+import { transporter } from "../config/emailConfig.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import db from "../config/dbConfig.js";
@@ -66,12 +67,14 @@ export const registerUser = async (
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
+    const verificationCode = Math.floor(100000 + Math.random() * 900000);
     await db.query(
-      "INSERT INTO users (firstname, username, email, password, created_at) VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP)",
-      [firstname, username, email, hashedPassword]
+      "INSERT INTO users (firstname, username, email, password, verification_code, is_verified, created_at) VALUES (?, ?, ?, ?, ?, FALSE, CURRENT_TIMESTAMP)",
+      [firstname, username, email, hashedPassword, verificationCode]
     );
 
     const token = jwt.sign({ username }, jwtSecret);
+    await sendVerificationEmail(username, email, verificationCode);
 
     return { success: true, username, email, token };
   } catch (error) {
@@ -82,6 +85,18 @@ export const registerUser = async (
     };
   }
 };
+
+async function sendVerificationEmail(username, email, verificationCode) {
+  let info = await transporter.sendMail({
+    from: `"Contextus" <${process.env.SMTP_USER}>`,
+    to: email,
+    subject: "Kod weryfikacyjny",
+    text: `Twój kod weryfikacyjny to: ${verificationCode}`,
+    html: `<b>Twój kod weryfikacyjny to: ${verificationCode}</b>`,
+  });
+
+  console.log("Wiadomość została wysłana: %s", info.messageId);
+}
 
 export default {
   authenticateUser,
