@@ -6,11 +6,15 @@ import AddPhrase from "./pages/AddPhrase";
 import StartLearning from "./pages/StartLearning";
 import GiveWord from "./pages/GiveWord";
 import VerificationCode from "./components/VerificationCode";
+import LoadingPage from "./components/LoadingPage";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Home />,
+    errorElement: (
+      <LoadingPage content="Wystąpił błąd. Kliknij na logo, aby wrócić do domyślnej strony..." />
+    ),
   },
   {
     path: "dashboard",
@@ -37,6 +41,12 @@ const router = createBrowserRouter([
   {
     path: "verification",
     element: <VerificationCode />,
+  },
+  {
+    path: "*",
+    element: (
+      <LoadingPage content="Wystąpił błąd. Kliknij na logo, aby wrócić do domyślnej strony..." />
+    ),
   },
 ]);
 

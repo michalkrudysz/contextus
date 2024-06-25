@@ -7,6 +7,7 @@ import StartModule from "../components/StartModule";
 import VerificationCode from "../components/VerificationCode";
 import { apiRequest } from "../services/api";
 import classes from "./styles/Dashboard.module.scss";
+import LoadingPage from "../components/LoadingPage";
 
 export default function Dashboard() {
   const { firstname, token, userId, username } = useSelector(
@@ -99,7 +100,7 @@ export default function Dashboard() {
     <main className={classes.dashboard}>
       <HeaderDashboard />
       {loading ? (
-        <p>Ładowanie...</p>
+        <LoadingPage content="Trwa ładowanie..." />
       ) : (
         <StartModule username={firstname} phraseStats={phraseStats} />
       )}
