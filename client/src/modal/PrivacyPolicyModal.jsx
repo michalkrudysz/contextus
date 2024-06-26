@@ -44,8 +44,8 @@ const PrivacyPolicyModal = ({ isVisible, onAccept, onClose }) => {
               <ul>
                 <li>Adres e-mail,</li>
                 <li>Hasło, w formie zahashowanej,</li>
-                <li>Login</li>
-                <li>Imię</li>
+                <li>Login,</li>
+                <li>Imię.</li>
               </ul>
             </p>
 
