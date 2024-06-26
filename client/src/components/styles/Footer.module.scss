@@ -5,3 +5,21 @@
   letter-spacing: 0.08em;
   font-weight: 300;
 }
+
+@media (max-width: 1520px) {
+  .footer {
+    font-size: 0.95em;
+  }
+}
+
+@media (max-width: 1300px) {
+  .footer {
+    font-size: 0.9em;
+  }
+}
+
+@media (max-width: 500px) {
+  .footer {
+    font-size: 0.85em;
+  }
+}

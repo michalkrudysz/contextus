@@ -4,16 +4,24 @@
   right: -50%;
   width: 70em;
   padding: 1em 0em;
-  background-color: #62a09a;
-  color: white;
+  background-color: #f2edd5;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  z-index: 1000;
-  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
+  z-index: 1001;
+
   border-radius: 5px 0 0 5px;
   animation: slideIn 0.5s forwards;
+}
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
 }
 
 @keyframes slideIn {
@@ -27,7 +35,7 @@
 
 h4 {
   margin-top: 0.5em;
-  color: #ffc55a;
+  color: #4988bf;
   letter-spacing: 0.05em;
 }
 
@@ -50,7 +58,8 @@ h4 {
     height: 2em;
     margin-top: 0.7em;
     margin-left: 1em;
-    background-color: #5faad9;
+    background-color: #d94032;
+    color: white;
     text-align: center;
     line-height: 2em;
     font-size: 0.95em;
@@ -59,7 +68,7 @@ h4 {
     transition: background-color 0.3s;
 
     &:hover {
-      background-color: #47a0e4;
+      background-color: #ee3c2c;
     }
   }
 }

@@ -28,11 +28,21 @@ function App() {
     },
     {
       path: "dashboard",
-      element: <ProtectedRoute />,
+      element:
+        width >= 1200 ? (
+          <ProtectedRoute />
+        ) : (
+          <LoadingPage content="Obecnie aplikacja jest kompatybilna wyłącznie z urządzeniami, które mają wyświetlacze o rozdzielczości przekraczającej 1200 pikseli. Prosimy o ponowne uruchomienie aplikacji za pomocą laptopa lub komputera stacjonarnego." />
+        ),
       children: [
         {
           index: true,
-          element: <Dashboard />,
+          element:
+            width >= 1200 ? (
+              <Dashboard />
+            ) : (
+              <LoadingPage content="Obecnie aplikacja jest kompatybilna wyłącznie z urządzeniami, które mają wyświetlacze o rozdzielczości przekraczającej 1200 pikseli. Prosimy o ponowne uruchomienie aplikacji za pomocą laptopa lub komputera stacjonarnego." />
+            ),
         },
         {
           path: "addphrase",
