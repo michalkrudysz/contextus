@@ -239,3 +239,78 @@
     }
   }
 }
+@media (max-width: 1300px) {
+  .main-container {
+    .content {
+      padding-bottom: 6em;
+
+      .button {
+        width: 13em;
+        height: 2.2em;
+        margin-top: 0.5em;
+        line-height: 2.2em;
+        font-size: 0.9em;
+        font-weight: 400;
+        letter-spacing: 0.1em;
+        text-align: center;
+      }
+
+      .left {
+        display: flex;
+        flex-direction: column;
+        width: 50%;
+        padding-left: 4em;
+        padding-right: 3em;
+        border-right: 0.2em solid #f26b5e;
+        border-radius: 30px 0 0 30px;
+
+        h1 {
+          font-size: 2.8em;
+
+          span {
+            font-size: 1.2em;
+          }
+        }
+
+        h2 {
+          font-size: 1.9em;
+
+          span {
+            font-size: 0.6em;
+          }
+        }
+
+        .buttons {
+          .button {
+            background-color: #f26b5e;
+            -webkit-box-shadow: 1px 1px 19px -9px rgba(242, 107, 94, 1);
+            -moz-box-shadow: 1px 1px 19px -9px rgba(242, 107, 94, 1);
+            box-shadow: 1px 1px 19px -9px rgba(242, 107, 94, 1);
+
+            &:hover {
+              background-color: #fd6557;
+              -webkit-box-shadow: 1px 1px 34px -9px rgba(253, 101, 87, 1);
+              -moz-box-shadow: 1px 1px 34px -9px rgba(253, 101, 87, 1);
+              box-shadow: 1px 1px 34px -9px rgba(253, 101, 87, 1);
+            }
+          }
+        }
+      }
+
+      .right {
+        width: 50%;
+        padding-left: 3em;
+        padding-right: 2em;
+
+        h1 {
+          font-size: 2.3em;
+          padding-top: 1em;
+        }
+
+        h2 {
+          font-size: 1.2em;
+        }
+      }
+    }
+  }
+}

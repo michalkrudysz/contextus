@@ -82,3 +82,30 @@
     }
   }
 }
+@media (max-width: 1300px) {
+  .home {
+    .main-container {
+      gap: 1em;
+      .left-side {
+        .content {
+          .title {
+            h1 {
+              font-size: 1.2em;
+            }
+            h2 {
+              width: 70%;
+              margin-top: 0.3em;
+              font-size: 3em;
+            }
+          }
+
+          .description {
+            margin-top: 0.9em;
+            margin-bottom: 3em;
+            font-size: 0.9em;
+          }
+        }
+      }
+    }
+  }
+}

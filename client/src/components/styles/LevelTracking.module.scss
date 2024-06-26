@@ -62,3 +62,23 @@
     }
   }
 }
+
+@media (max-width: 1300px) {
+  .level-tracking {
+    h3 {
+      margin-top: 0.5em;
+      font-size: 1em;
+    }
+    .levels {
+      display: flex;
+      width: 100%;
+      .level {
+        height: 1.8em;
+        line-height: 1.8em;
+        text-align: center;
+        padding: 0 1.3em;
+        font-size: 0.95em;
+      }
+    }
+  }
+}

@@ -63,3 +63,31 @@
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 1000;
 }
+
+@media (max-width: 1520px) {
+  .privacy-modal {
+    height: 50em;
+    border-radius: 5px;
+    h4 {
+      margin-top: 0.5em;
+      color: #4988bf;
+      font-size: 1.1em;
+    }
+    .container {
+      margin-top: 0.6em;
+      h5 {
+        margin-top: 0.5em;
+      }
+      p {
+        font-size: 0.8em;
+        ul {
+          margin-top: 0.2em;
+          list-style-type: disc;
+          li {
+            margin-left: 1.8em;
+          }
+        }
+      }
+    }
+  }
+}
