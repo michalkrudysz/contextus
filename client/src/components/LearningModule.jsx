@@ -1,22 +1,13 @@
-import { Link, useNavigate } from "react-router-dom";
-import classes from "./styles/LearningModule.module.scss";
-import { useSelector } from "react-redux";
-import {
-  selectReadyForReviewPhrases,
-  selectPhrasesCountByLevel,
-  selectLoading,
-} from "../features/learning/learningSelectors";
-import { usePhraseLogic } from "../utils/usePhraseLogic";
-import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { useLearningModuleLogic } from "../utils/useLearningModuleLogic";
 import LoadingPage from "./LoadingPage";
+import classes from "./styles/LearningModule.module.scss";
 
 export default function LearningModule() {
-  const isLoading = useSelector(selectLoading);
-  const reviewPhrases = useSelector(selectReadyForReviewPhrases);
-  const phrasesCountByLevel = useSelector(selectPhrasesCountByLevel);
-  const navigate = useNavigate();
-
   const {
+    isLoading,
+    levelColor,
+    sessionComplete,
     currentPhrase,
     translation,
     setTranslation,
@@ -27,49 +18,12 @@ export default function LearningModule() {
     handleNextPhrase,
     togglePhrase,
     handleKeyPress,
-  } = usePhraseLogic(reviewPhrases);
+    reviewPhrases,
+    phrasesCountByLevel,
+  } = useLearningModuleLogic();
 
   const level = currentPhrase ? currentPhrase.level : null;
   const phrasesCount = level ? phrasesCountByLevel[level] || 0 : 0;
-  const [levelColor, setLevelColor] = useState(null);
-  const [sessionComplete, setSessionComplete] = useState(false);
-
-  useEffect(() => {
-    if (level) {
-      switch (level) {
-        case 1:
-          setLevelColor(classes.red);
-          break;
-        case 2:
-          setLevelColor(classes.orange);
-          break;
-        case 3:
-          setLevelColor(classes.yellow);
-          break;
-        case 4:
-          setLevelColor(classes.green);
-          break;
-        case 5:
-          setLevelColor(classes.blue);
-          break;
-        case 6:
-          setLevelColor(classes.silver);
-          break;
-        default:
-          setLevelColor(null);
-          break;
-      }
-    }
-  }, [level]);
-
-  useEffect(() => {
-    if (!isLoading && reviewPhrases.length === 0) {
-      setSessionComplete(true);
-      setTimeout(() => {
-        navigate(-1);
-      }, 2000);
-    }
-  }, [isLoading, reviewPhrases.length, navigate]);
 
   if (isLoading) {
     return <LoadingPage content="Trwa ładowanie..." />;
@@ -146,7 +100,7 @@ export default function LearningModule() {
               Ilość zwrotów: <span className={levelColor}>{phrasesCount}</span>
             </h3>
             <p>
-              Łączna ilość zwrotów do powtórzenia na dziś:{" "}
+              Łączna ilość zwrotów do powtórzenia na dziś:
               <span>{reviewPhrases.length}</span>
             </p>
           </div>

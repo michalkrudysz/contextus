@@ -22,9 +22,10 @@ const CookieModal = () => {
         <h4>Cookies i Lokalne Przechowywanie Danych</h4>
         <div className={classes.container}>
           <p>
-            Nasza witryna korzysta z plików cookies oraz lokalnego
-            przechowywania danych w celu optymalizacji jakości świadczonych
-            usług oraz poprawy komfortu użytkowania.
+            Witryna wykorzystuje pliki cookies oraz lokalne metody
+            przechowywania danych, aby optymalizować jakość świadczonych usług i
+            podnieść komfort użytkowania. Rejestrując się w serwisie, zgadzasz
+            się na przestrzeganie naszej polityki prywatności.
           </p>
           <button className={classes.button} onClick={handleAccept}>
             Akceptuję

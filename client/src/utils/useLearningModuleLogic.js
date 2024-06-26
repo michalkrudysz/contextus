@@ -1,0 +1,81 @@
+import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
+import {
+  selectReadyForReviewPhrases,
+  selectPhrasesCountByLevel,
+  selectLoading,
+} from "../features/learning/learningSelectors";
+import { usePhraseLogic } from "./usePhraseLogic";
+import { useNavigate } from "react-router-dom";
+import classes from "../components/styles/LearningModule.module.scss";
+
+export function useLearningModuleLogic() {
+  const isLoading = useSelector(selectLoading);
+  const reviewPhrases = useSelector(selectReadyForReviewPhrases);
+  const phrasesCountByLevel = useSelector(selectPhrasesCountByLevel);
+  const navigate = useNavigate();
+
+  const {
+    currentPhrase,
+    translation,
+    setTranslation,
+    answerResult,
+    buttonContent,
+    currentLanguagePhrase,
+    handleFormSubmit,
+    handleNextPhrase,
+    togglePhrase,
+    handleKeyPress,
+  } = usePhraseLogic(reviewPhrases);
+
+  const [levelColor, setLevelColor] = useState(null);
+  const [sessionComplete, setSessionComplete] = useState(false);
+
+  useEffect(() => {
+    if (currentPhrase?.level) {
+      const level = currentPhrase.level;
+      const colors = {
+        1: classes.red,
+        2: classes.orange,
+        3: classes.yellow,
+        4: classes.green,
+        5: classes.blue,
+        6: classes.silver,
+      };
+      setLevelColor(colors[level] || null);
+    }
+  }, [currentPhrase]);
+
+  useEffect(() => {
+    if (!isLoading) {
+      const timer = setTimeout(() => {
+        if (reviewPhrases.length === 0) {
+          setSessionComplete(true);
+          setTimeout(() => {
+            navigate("/dashboard");
+          }, 2000);
+        }
+      }, 500);
+
+      return () => clearTimeout(timer);
+    }
+  }, [isLoading, reviewPhrases.length, navigate]);
+
+  return {
+    isLoading,
+    levelColor,
+    sessionComplete,
+    currentPhrase,
+    translation,
+    setTranslation,
+    answerResult,
+    buttonContent,
+    currentLanguagePhrase,
+    handleFormSubmit,
+    handleNextPhrase,
+    togglePhrase,
+    handleKeyPress,
+    reviewPhrases,
+    phrasesCountByLevel,
+  };
+}
