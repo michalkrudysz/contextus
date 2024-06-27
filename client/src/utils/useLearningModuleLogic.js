@@ -5,8 +5,8 @@ import {
   selectPhrasesCountByLevel,
   selectLoading,
 } from "../features/learning/learningSelectors";
-import { usePhraseLogic } from "./usePhraseLogic";
 import { useNavigate } from "react-router-dom";
+import { usePhraseLogic } from "./usePhraseLogic";
 import classes from "../components/styles/LearningModule.module.scss";
 
 export function useLearningModuleLogic() {
@@ -30,6 +30,7 @@ export function useLearningModuleLogic() {
 
   const [levelColor, setLevelColor] = useState(null);
   const [sessionComplete, setSessionComplete] = useState(false);
+  const [dataChecked, setDataChecked] = useState(false);
 
   useEffect(() => {
     if (currentPhrase?.level) {
@@ -47,15 +48,20 @@ export function useLearningModuleLogic() {
   }, [currentPhrase]);
 
   useEffect(() => {
-    if (!isLoading) {
-      if (reviewPhrases.length === 0) {
-        setSessionComplete(true);
-        setTimeout(() => {
-          navigate("/dashboard");
-        }, 2000);
+    const timer = setTimeout(() => {
+      if (!isLoading && !dataChecked) {
+        setDataChecked(true);
+        if (reviewPhrases.length === 0) {
+          setSessionComplete(true);
+          setTimeout(() => {
+            navigate("/dashboard");
+          }, 2000);
+        }
       }
-    }
-  }, [isLoading, reviewPhrases.length, navigate]);
+    }, 100);
+
+    return () => clearTimeout(timer);
+  }, [isLoading, reviewPhrases.length, navigate, dataChecked]);
 
   return {
     isLoading,
