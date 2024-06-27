@@ -1,4 +1,4 @@
-import { addDays, parseISO } from "date-fns";
+import { startOfDay, addDays, parseISO } from "date-fns";
 import { createSelector } from "reselect";
 
 export const selectPhrases = (state) => state.learning.phrases;
@@ -12,10 +12,15 @@ const getPhrases = (state) => state.learning.phrases;
 export const selectReadyForReviewPhrases = createSelector(
   [getPhrases],
   (phrases) => {
-    const today = new Date();
+    const today = startOfDay(new Date());
     return phrases.filter((phrase) => {
-      const lastReviewDate = parseISO(phrase.lastReviewDate);
-      const nextReviewDate = addDays(lastReviewDate, phrase.reviewInterval);
+      const lastReviewDate = startOfDay(parseISO(phrase.lastReviewDate));
+      let nextReviewDate;
+      if (phrase.reviewInterval === 1) {
+        nextReviewDate = lastReviewDate;
+      } else {
+        nextReviewDate = addDays(lastReviewDate, phrase.reviewInterval);
+      }
       return nextReviewDate <= today;
     });
   }

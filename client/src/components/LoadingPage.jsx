@@ -2,18 +2,17 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import classes from "./styles/LoadingPage.module.scss";
 import Footer from "./Footer";
+import graphic from "../../public/graphics.png";
 
 export default function LoadingPage({ content }) {
   const navigate = useNavigate();
-  const [logo, setLogo] = useState(
-    localStorage.getItem("logo") || "../../public/graphics.png"
-  );
+  const [logo, setLogo] = useState(localStorage.getItem("logo") || graphic);
 
   useEffect(() => {
     const fetchLogo = async () => {
       if (!localStorage.getItem("logo")) {
         try {
-          const response = await fetch(logo);
+          const response = await fetch(graphic);
           const blob = await response.blob();
           const reader = new FileReader();
           reader.onloadend = () => {
@@ -24,6 +23,7 @@ export default function LoadingPage({ content }) {
           reader.readAsDataURL(blob);
         } catch (error) {
           console.error("Error loading logo:", error);
+          setLogo(graphic);
         }
       }
     };

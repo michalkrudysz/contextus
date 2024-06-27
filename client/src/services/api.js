@@ -2,8 +2,6 @@ import { API_BASE_URL } from "../config/apiConfig";
 
 export const apiRequest = async (endpoint, method, body, headers = {}) => {
   try {
-    console.log(`Making API request to ${API_BASE_URL}${endpoint}`);
-
     const requestOptions = {
       method,
       headers: {
@@ -18,11 +16,6 @@ export const apiRequest = async (endpoint, method, body, headers = {}) => {
 
     const url = `${API_BASE_URL}${endpoint}`;
     const response = await fetch(url, requestOptions);
-
-    console.log(`Response from ${url}:`, {
-      status: response.status,
-      headers: response.headers,
-    });
 
     const data = await response.json();
 
