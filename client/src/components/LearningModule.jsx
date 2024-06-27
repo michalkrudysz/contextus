@@ -100,7 +100,7 @@ export default function LearningModule() {
               Ilość zwrotów: <span className={levelColor}>{phrasesCount}</span>
             </h3>
             <p>
-              Łączna ilość zwrotów do powtórzenia na dziś:
+              Łączna ilość zwrotów do powtórzenia na dziś:{""}
               <span>{reviewPhrases.length}</span>
             </p>
           </div>

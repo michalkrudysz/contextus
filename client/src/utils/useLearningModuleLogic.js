@@ -48,16 +48,12 @@ export function useLearningModuleLogic() {
 
   useEffect(() => {
     if (!isLoading) {
-      const timer = setTimeout(() => {
-        if (reviewPhrases.length === 0) {
-          setSessionComplete(true);
-          setTimeout(() => {
-            navigate("/dashboard");
-          }, 2000);
-        }
-      }, 500);
-
-      return () => clearTimeout(timer);
+      if (reviewPhrases.length === 0) {
+        setSessionComplete(true);
+        setTimeout(() => {
+          navigate("/dashboard");
+        }, 2000);
+      }
     }
   }, [isLoading, reviewPhrases.length, navigate]);
 
