@@ -20,7 +20,7 @@ function App() {
         width >= 1200 ? (
           <Home />
         ) : (
-          <LoadingPage content="Obecnie aplikacja jest kompatybilna wyłącznie z urządzeniami, które mają wyświetlacze o rozdzielczości przekraczającej 1200 pikseli. Prosimy o ponowne uruchomienie aplikacji za pomocą laptopa lub komputera stacjonarnego." />
+          <LoadingPage content="Obecnie aplikacja jest kompatybilna wyłącznie z urządzeniami, które mają wyświetlacze o rozdzielczości przekraczającej 1200 pikseli. Prosimy o ponowne uruchomienie za pomocą laptopa lub komputera stacjonarnego." />
         ),
       errorElement: (
         <LoadingPage content="Wystąpił błąd. Kliknij na logo, aby wrócić do domyślnej strony..." />
