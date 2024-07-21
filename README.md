@@ -190,4 +190,33 @@ The database `contextus-database` includes the following tables:
 
 ![Spaced repetition learning module](docs/assets/9.png "Spaced repetition learning module")
 
-test
+## Pre-installation Requirements
+
+A Node.js environment is required to run the application locally. The project consists of multiple components that need to be set up and run in separate terminals:
+
+### Setting up the project:
+
+1. **Clone the project repository.**
+
+### Client setup:
+
+2. Navigate to the `client` directory and run `npm install` to install dependencies.
+3. To start the frontend application in development mode, open a terminal window and execute `npm run dev`.
+   - In the `client/config` directory, the default API base URL is configured as:
+     ```javascript
+     export const API_BASE_URL = "http://localhost:3000";
+     ```
+     Change this value if you wish to deploy the application to a production server.
+
+### Server setup:
+
+4. Navigate to the `server` directory and run `npm install` to install server dependencies.
+5. To start the backend application in development mode, open another terminal window and execute `npm run dev`.
+
+### Database setup:
+
+6. Ensure that the MySQL database is set up as described in the `database` directory files. The database can be created using tools like MySQL Workbench.
+
+### Note:
+
+Both the client and the server must be running concurrently in separate terminal windows for the application to function properly.
