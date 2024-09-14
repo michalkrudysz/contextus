@@ -154,6 +154,14 @@ The database `contextus-database` includes the following tables:
 
 ![Website mockup](docs/assets/mockup.png "Website mockupn")
 
+### Information about Cookies displayed on the first page load
+
+![Information about Cookies displayed on the first page load](docs/assets/10.png "Information about Cookies displayed on the first page load")
+
+### A modal appearing with details of the privacy policy
+
+![A modal appearing with details of the privacy policy](docs/assets/11.png "A modal appearing with details of the privacy policy")
+
 ### Homepage with login
 
 ![Homepage with login](docs/assets/1.png "Homepage with login")
@@ -211,11 +219,12 @@ A Node.js environment is required to run the application locally. The project co
 ### Server setup:
 
 4. Navigate to the `server` directory and run `npm install` to install server dependencies.
-5. To start the backend application in development mode, open another terminal window and execute `npm run dev`.
+5. Install and configure RabbitMQ for queue management in the application.
+6. To start the backend application in development mode, open another terminal window and execute `npm run dev`.
 
 ### Database setup:
 
-6. Ensure that the MySQL database is set up as described in the `database` directory files. The database can be created using tools like MySQL Workbench.
+7. Ensure that the MySQL database is set up as described in the `database` directory files. The database can be created using tools like MySQL Workbench.
 
 ### Note:
 
