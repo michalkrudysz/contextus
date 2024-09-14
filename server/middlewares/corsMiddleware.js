@@ -2,10 +2,11 @@ import cors from "cors";
 
 const corsOptions = {
   origin: "*",
-  methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
-  allowedHeaders: ["Content-Type", "Authorization"],
+  methods: "*",
+  allowedHeaders: "*",
+  credentials: true,
   optionsSuccessStatus: 200,
-  preflightContinue: false,
+  preflightContinue: true,
 };
 
 export default cors(corsOptions);
